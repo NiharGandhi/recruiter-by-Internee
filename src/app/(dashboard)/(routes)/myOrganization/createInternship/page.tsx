@@ -151,6 +151,7 @@ const CreateInternship = () => {
                 title: "Congratulations",
                 description: "Profile Created Successfully.",
             })
+            window.location.reload();
             form.reset();
         } catch {
             toast({

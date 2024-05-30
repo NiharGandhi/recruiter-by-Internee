@@ -13,6 +13,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id String @id @default(uuid())
+  userId String @unique
+  name String @db.Text
+  EducationLevel String? @db.Text
+  InstitutionName String? @db.Text
+  GraduationDate DateTime?
+  email String? @unique @db.Text
+  
+  skills String? @db.Text
+
+  resume String? @db.Text
+
+  role UserRole @default(USER)
+  projects Project[]
+  certificates Certificate[]
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String   @db.Text
+  description String   @db.Text
+  link        String?  @db.Text
+  imageUrl    String? @db.Text
+  userId      String
+  user        User     @relation(fields: [userId], references: [userId])
+}
+
+model Certificate {
+  id          String   @id @default(uuid())
+  name        String   @db.Text
+  description String   @db.Text
+  link        String?  @db.Text
+  certificateUrl    String? @db.Text
+  userId      String
+  user        User     @relation(fields: [userId], references: [userId])
+}
+
+model Events {
+  id String @id @default(uuid())
+  title String @db.Text
+  dateTime DateTime
+}
+
+model OnlineReourses {
+  id String @id @default(uuid())
+  name String @db.Text
+  desc String @db.Text
+  link String @db.Text
+}
+
+model RecommendedBooks {
+  id String @id @default(uuid())
+  name String @db.Text
+  author String @db.Text
+  link String @db.Text
+}
+
+model UsefulTools {
+  id String @id @default(uuid())
+  name String @db.Text
+  desc String @db.Text
+  link String @db.Text
+}
+
 model Company {
   id String @id @default(uuid())
   userId String @unique
@@ -22,7 +92,6 @@ model Company {
 
   projects CreateInternship[]
 }
-
 
 model CreateInternship {
   id          String   @id @default(uuid())

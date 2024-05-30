@@ -181,6 +181,7 @@ const InternshipEditPage = ({
         try {
             const values = form.getValues(); // Retrieve form values
             const response = await axios.put(`/api/editInternships/${internshipData.id}`, values);
+            window.location.reload();
             // router.push(`/users/${response.data.id}`);
             toast({
                 title: "Congratulations",

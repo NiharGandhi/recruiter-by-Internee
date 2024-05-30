@@ -190,7 +190,7 @@ const MyProfile = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             const response = await axios.post("/api/myOrganization", values);
-            router.push(`/users/${response.data.id}`);
+            // router.push(`/users/${response.data.id}`);
             toast({
                 title: "Congratulations",
                 description: "Profile Created Successfully.",
