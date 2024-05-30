@@ -58,6 +58,7 @@ import CompanyInterhsipsDisplay from '@/components/CompanyInternshipsDisplay';
 
 const formSchema = z.object({
     name: z.string().min(2).max(50),
+    email: z.string().email(),
     companyDescription: z.string().min(2),
     companyImageUrl: z.string(),
 })
@@ -116,6 +117,7 @@ const MyProfile = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
+            email: "",
             companyDescription: "",
             companyImageUrl: "",
         },
@@ -125,6 +127,7 @@ const MyProfile = () => {
         if (userData) {
             form.reset({
                 name: userData.name,
+                email: userData.email,
                 companyDescription: userData.CompanyDescription,
                 companyImageUrl: userData.CompanyImageUrl,
             });
@@ -253,6 +256,20 @@ const MyProfile = () => {
                                             <FormDescription>
                                                 This is your public display name.
                                             </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Contact Email</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Internee" {...field} disabled={!isEditing && userData !== null} />
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
 

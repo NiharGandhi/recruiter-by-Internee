@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const { userId } = auth();
-        const { name, companyDescription, companyImageUrl } = await req.json();
+        const { name, companyDescription, companyImageUrl, email } = await req.json();
 
         if (!userId) {
             return new NextResponse("UnAuthorized", { status: 401 });
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
                 data: {
                     userId: userId,
                     name: name,
+                    email: email,
                     CompanyDescription: companyDescription,
                     CompanyImageUrl: companyImageUrl
                 },
@@ -76,7 +77,7 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
     try {
         const { userId } = auth();
-        const { name, companyDescription, companyImageUrl } = await req.json();
+        const { name, companyDescription, companyImageUrl, email } = await req.json();
 
         if (!userId) {
             return new NextResponse("UnAuthorized", { status: 401 });
@@ -97,6 +98,7 @@ export async function PUT(req: Request) {
             },
             data: {
                 name: name,
+                email: email,
                 CompanyDescription: companyDescription,
                 CompanyImageUrl: companyImageUrl
             }

@@ -87,6 +87,7 @@ model Company {
   id String @id @default(uuid())
   userId String @unique
   name String @db.Text
+  email String @db.Text
   CompanyDescription String? @db.Text
   CompanyImageUrl String? @db.Text
 
