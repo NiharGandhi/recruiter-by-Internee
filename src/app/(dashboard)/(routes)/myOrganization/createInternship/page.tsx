@@ -377,7 +377,7 @@ const CreateInternship = () => {
                     <div className='w-full lg:w-1/2 py-9'>
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Your Projects</CardTitle>
+                                    <CardTitle>Your Internships</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     {internshipData !== null && (

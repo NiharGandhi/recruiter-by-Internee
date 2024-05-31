@@ -60,7 +60,7 @@ const UserPublicPage = async ({
         }
     });
 
-    console.log("CERT",certificates)
+    // console.log("CERT",certificates)
 
     return (
         <div>

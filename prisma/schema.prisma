@@ -29,6 +29,7 @@ model User {
   role UserRole @default(USER)
   projects Project[]
   certificates Certificate[]
+  applications Application[]
 }
 
 enum UserRole {
@@ -104,4 +105,22 @@ model CreateInternship {
   AmountPaid String? @db.Text
   userId      String
   user        Company     @relation(fields: [userId], references: [userId])
+  applications Application[]
+}
+
+model Application {
+  id                   String             @id @default(uuid())
+  user                 User               @relation(fields: [userId], references: [id])
+  userId               String
+  internship           CreateInternship   @relation(fields: [internshipId], references: [id])
+  internshipId         String
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  status ApplicationStatus @default(PENDING)
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }

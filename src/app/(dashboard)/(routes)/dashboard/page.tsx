@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookIcon, CalendarIcon, NetworkIcon, PlusCircle, PlusCircleIcon, PlusIcon, UserIcon, UsersIcon } from 'lucide-react'
+import { BookIcon, CalendarIcon, GoalIcon, NetworkIcon, PlusCircle, PlusCircleIcon, PlusIcon, UserIcon, UsersIcon } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -60,6 +60,13 @@ const Dashboard = () => {
           </Link>
           <Link
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            href="/myInternships"
+          >
+            <GoalIcon className="h-4 w-4" />
+            My Internships
+          </Link>
+          <Link
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             href="/myOrganization"
           >
             <UserIcon className="h-4 w-4" />
@@ -105,6 +112,13 @@ const Dashboard = () => {
             >
               <PlusCircleIcon className="h-4 w-4" />
               Create Internship
+            </Link>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/myInternships"
+            >
+              <GoalIcon className="h-4 w-4" />
+              My Internships
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
