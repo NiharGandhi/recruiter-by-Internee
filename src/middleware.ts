@@ -4,7 +4,9 @@ import {
 } from '@clerk/nextjs/server';
 
 const isProtectedRoute = createRouteMatcher([
+    '/admin(.*)',
     '/dashboard(.*)',
+    '/myInternships(.*)',
     '/createInternship(.*)',
     '/users(.*)',
 ]);

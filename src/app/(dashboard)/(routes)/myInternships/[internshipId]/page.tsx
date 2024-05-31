@@ -3,13 +3,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator
+} from '@/components/ui/breadcrumb';
 import { db } from '@/lib/db';
 import axios from 'axios';
 import { format } from 'date-fns';
@@ -41,7 +41,22 @@ const ApplicationPage = async ({ params }) => {
 
     return (
         <div className='px-4'>
-            <h1 className='font-bold text-4xl py-4'>Applications for Internship {internshipData.name}</h1>
+            <Breadcrumb className='mt-2 py-2'>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/myInternships">My Internships</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>{internshipData.name}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+            <h1 className='font-bold text-4xl mb-2'>Applications for Internship {internshipData.name}</h1>
             {applications.map(app => (
                 <Card key={app.id} className='mb-4'>
                     <CardHeader>

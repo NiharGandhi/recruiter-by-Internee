@@ -2,10 +2,16 @@
 
 import CompanyInterhsipsDisplay from '@/components/CompanyInternshipsDisplay';
 import { Badge } from '@/components/ui/badge';
-import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator
+} from '@/components/ui/breadcrumb';
 import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
 import { CalendarIcon, EllipsisVertical, LinkIcon } from 'lucide-react';
@@ -54,6 +60,17 @@ const MyInternshipsPage = () => {
 
   return (
     <div className='p-4'>
+          <Breadcrumb className='mb-4'>
+              <BreadcrumbList>
+                  <BreadcrumbItem>
+                      <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                      <BreadcrumbPage>My Internships</BreadcrumbPage>
+                  </BreadcrumbItem>
+              </BreadcrumbList>
+          </Breadcrumb>
           <Card>
               <CardHeader>
                   <CardTitle>Your Internships</CardTitle>
@@ -87,7 +104,7 @@ const MyInternshipsPage = () => {
                                       </>
                                   )}
                                   <div className='ml-auto space-x-1'>
-                                    <Link href={`/myInternships/${internshipData.id}`}>
+                                    <Link href={`/myInternships/${project.id}`}>
                                         <Button>
                                             Check Applications
                                         </Button>

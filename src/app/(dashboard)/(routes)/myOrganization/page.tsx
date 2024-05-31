@@ -40,8 +40,7 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator
-}
-    from '@/components/ui/breadcrumb';
+} from '@/components/ui/breadcrumb';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from "@/components/ui/separator"
@@ -233,12 +232,12 @@ const MyProfile = () => {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>My Profile</BreadcrumbPage>
+                            <BreadcrumbPage>My Organization</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <h1 className='text-4xl font-bold font-sans'>
-                    Your Profile
+                    Your Organization Profile
                 </h1>
                 <div className='flex-col lg:flex-wrap'>
                     <Form {...form}>
