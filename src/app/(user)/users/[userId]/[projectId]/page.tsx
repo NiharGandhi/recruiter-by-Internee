@@ -5,18 +5,6 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -25,9 +13,10 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from 'next/link';
-import { ArrowBigRight, CalendarIcon, DownloadCloudIcon, FileIcon, InfoIcon, LinkIcon, PencilIcon } from 'lucide-react';
+import { InfoIcon } from 'lucide-react';
 import Image from 'next/image';
 import FallBack from "../../../../../../public/fallback.png";
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const PublicProjectPage = async ({
     params
@@ -57,7 +46,7 @@ const PublicProjectPage = async ({
         return redirect("/dashboard");
     }
 
-    const fallbackImageUrl = FallBack; 
+    const fallbackImageUrl = FallBack;
 
     console.log(project.imageUrl);
 
@@ -81,34 +70,24 @@ const PublicProjectPage = async ({
             </Breadcrumb>
             <div className='ml-2 py-4 flex-col lg:flex-wrap'>
                 <div className='flex-col lg:flex lg:flex-row'>
-                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6'>
-                        <div className='flex items-center mt-4 px-4'>
+                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-2'>
+                        <div className='flex items-center px-4'>
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                                 <InfoIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                             </div>
                             <h1 className='font-bold text-2xl lg:text-4xl ml-2'>{project.name}</h1>
                         </div>
-                        <div className='mt-4 px-4 '>
-                            <h2 className='text-2xl font-semibold'>Image</h2>
-                            <Image
-                                src={project.imageUrl || fallbackImageUrl} // Use fallback image URL if project.imageUrl is null
-                                alt="Hero"
-                                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                                width={"550"}
-                                height={"310"}
-                            />
-                        </div>
-                    </div>
-                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-16'>
                         <div className='mt-4 px-4'>
                             <h2 className='text-2xl font-semibold'>Description</h2>
-                            <p className='py-2 px-2 text-gray-800 bg-gray-100 rounded-lg'>{project.description}</p>
+                            <ScrollArea className='h-[370px] py-2 px-2 rounded-lg whitespace-pre-wrap'>
+                                {project.description}
+                            </ScrollArea>
                         </div>
                         <div className='mt-4 px-4'>
                             <h2 className='text-2xl font-semibold'>Link</h2>
                             {project.link ? ( // Check if project has a link
                                 <> {/* Wrap in Link if project has a link */}
-                                    <div className="py-2 px-2 text-gray-800 bg-gray-100 rounded-lg hover:text-blue-500 hover:underline w-auto">
+                                    <div className="py-16 px-2 text-gray-800 bg-gray-100 rounded-lg hover:text-blue-500 hover:underline w-auto">
                                         <Link href={project.link}>
                                             <p className='overflow-clip'>{project.link}</p>
                                         </Link>
@@ -116,14 +95,29 @@ const PublicProjectPage = async ({
                                 </>
                             ) : ( // Render just the div if project does not have a link
                                 <>
-                                    <div className='py-2 px-2 text-gray-800 bg-gray-100 rounded-lg'>
+                                    <div className='py-2 px-2 text-gray-800 bg-gray-100/30 dark:text-gray-300 rounded-lg'>
                                         <p>No Links</p>
                                     </div>
                                 </>
                             )}
                         </div>
                     </div>
-                    
+                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-14 py-6'>
+                        <div className='mt-4 px-4 '>
+                            <h2 className='text-2xl font-semibold'>Image</h2>
+                            {project.imageUrl ? (
+                                <Image
+                                    src={project.imageUrl}
+                                    alt="Hero"
+                                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                                    width={"550"}
+                                    height={"310"}
+                                />
+                            ) : (
+                                <p className='text-muted-foreground'>No Project Image uploaded</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

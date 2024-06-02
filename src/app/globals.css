@@ -66,6 +66,52 @@
     }
   }
 
+.filter-box {
+  background-color: #ccd4dc70;
+  border-radius: 0.75rem;
+  /* Rounded-lg */
+  font-family: sans-serif;
+  /* Font-sans */
+  padding: 0.3rem;
+  /* p-2 */
+}
+
+/* Dark mode styles */
+.dark .filter-box {
+  background-color: #CBD5E0;
+  /* Dark:bg-gray-400 */
+  color: #000000;
+  /* Dark:text-black */
+  font-weight: 200;
+  /* Font-semibold */
+}
+
+.autocomplete {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background: #f0f0f0;
+}
+
   @layer base {
     * {
       @apply border-border;

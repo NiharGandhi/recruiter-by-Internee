@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const { userId } = auth();
-        const { name, companyDescription, companyImageUrl, email } = await req.json();
+        const { name, companyDescription, companyImageUrl, companyLogoUrl, email, location } = await req.json();
 
         if (!userId) {
             return new NextResponse("UnAuthorized", { status: 401 });
@@ -25,7 +25,9 @@ export async function POST(req: Request) {
                 data: {
                     name: name,
                     CompanyDescription: companyDescription,
-                    CompanyImageUrl: companyImageUrl
+                    CompanyImageUrl: companyImageUrl,
+                    CompanyLogoUrl: companyLogoUrl,
+                    Location: location,
 
                 }
             })
@@ -39,7 +41,9 @@ export async function POST(req: Request) {
                     name: name,
                     email: email,
                     CompanyDescription: companyDescription,
-                    CompanyImageUrl: companyImageUrl
+                    CompanyImageUrl: companyImageUrl,
+                    CompanyLogoUrl: companyLogoUrl,
+                    Location: location
                 },
             });
 
@@ -77,7 +81,7 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
     try {
         const { userId } = auth();
-        const { name, companyDescription, companyImageUrl, email } = await req.json();
+        const { name, companyDescription, companyImageUrl, companyLogoUrl, email, location } = await req.json();
 
         if (!userId) {
             return new NextResponse("UnAuthorized", { status: 401 });
@@ -100,7 +104,9 @@ export async function PUT(req: Request) {
                 name: name,
                 email: email,
                 CompanyDescription: companyDescription,
-                CompanyImageUrl: companyImageUrl
+                CompanyImageUrl: companyImageUrl,
+                CompanyLogoUrl: companyLogoUrl,
+                Location: location
             }
         });
 

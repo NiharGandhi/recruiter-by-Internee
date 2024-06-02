@@ -2,18 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
-import { format } from "date-fns";
+import Image from 'next/image';
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from '@/lib/utils';
-
 import { Button } from "@/components/ui/button";
-
 import {
     Form,
     FormControl,
@@ -23,16 +19,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Calendar } from "@/components/ui/calendar";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -41,25 +28,25 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
-
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from "@/components/ui/separator"
 
-import { CalendarIcon, DownloadCloudIcon, FileIcon } from 'lucide-react';
+import { FileIcon } from 'lucide-react';
+
 import { FileUpload } from '@/components/file-upload';
-import Link from 'next/link';
-import ProfileProjectsDisplay from '@/components/profileProjectsDisplay';
-import ProfileCertificatesDisplay from '@/components/profileCertificatesDisplay';
 import { Textarea } from '@/components/ui/textarea';
-import Image from 'next/image';
-import FallBack from "../../../../../public/fallback.png";
 import CompanyInterhsipsDisplay from '@/components/CompanyInternshipsDisplay';
+
+import FallBack from "../../../../../public/fallback.png";
+
 
 const formSchema = z.object({
     name: z.string().min(2).max(50),
     email: z.string().email(),
     companyDescription: z.string().min(2),
     companyImageUrl: z.string(),
+    companyLogoUrl: z.string(),
+    location: z.string().min(1, "Location is required."),
 })
 
 const Loader = () => (
@@ -72,9 +59,8 @@ const Loader = () => (
     </div>
 );
 
-const MyProfile = () => {
-    const router = useRouter();
 
+const MyProfile = () => {
     const { toast } = useToast();
 
     const [userData, setUserData] = useState<any>(null);
@@ -119,6 +105,8 @@ const MyProfile = () => {
             email: "",
             companyDescription: "",
             companyImageUrl: "",
+            companyLogoUrl: "",
+            location: "",
         },
     });
 
@@ -129,6 +117,8 @@ const MyProfile = () => {
                 email: userData.email,
                 companyDescription: userData.CompanyDescription,
                 companyImageUrl: userData.CompanyImageUrl,
+                companyLogoUrl: userData.CompanyLogoUrl,
+                location: userData.Location,
             });
         }
     }, [form, userData]);
@@ -147,9 +137,36 @@ const MyProfile = () => {
                     <Image
                         src={userData.CompanyImageUrl || fallbackImageUrl}
                         alt="Hero"
-                        className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                        width={"550"}
-                        height={"310"}
+                        className="mx-auto overflow-hidden rounded-xl object-cover object-center"
+                        width={"1584"}
+                        height={"396"}
+                    />
+                );
+            }
+        } else {
+            return (
+                <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
+                    <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                    No Image Uploaded. Upload Now!!!
+                </div>
+            );
+        }
+    };
+
+    const renderCompanyLogo = () => {
+        if (!userData) {
+            return <FileUpload endpoint="companyLogo" onChange={handleLogoUpload} />
+        } else if (userData) {
+            if (isEditing) {
+                return <FileUpload endpoint="companyLogo" onChange={handleLogoUpload} />;
+            } else {
+                return (
+                    <Image
+                        src={userData.CompanyLogoUrl}
+                        alt="Hero"
+                        className="rounded-full"
+                        width={"100"}
+                        height={"100"}
                     />
                 );
             }
@@ -167,6 +184,13 @@ const MyProfile = () => {
     const handleResumeUpload = (url?: string) => {
         if (url) {
             form.setValue("companyImageUrl", url);
+            onSave();
+        }
+    };
+
+    const handleLogoUpload = (url?: string) => {
+        if (url) {
+            form.setValue("companyLogoUrl", url);
             onSave();
         }
     };
@@ -197,6 +221,7 @@ const MyProfile = () => {
                 title: "Congratulations",
                 description: "Profile Created Successfully.",
             })
+            window.location.reload();
         } catch {
             toast({
                 title: "Error",
@@ -215,6 +240,7 @@ const MyProfile = () => {
                 title: "Congratulations",
                 description: "Profile Updated Successfully.",
             })
+            window.location.reload();
         } catch (error) {
             console.error("Error updating profile:", error);
         }
@@ -293,8 +319,40 @@ const MyProfile = () => {
 
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="companyLogoUrl"
+                                    render={({ field }) => (
+                                        <FormControl>
+                                            <FormItem>
+                                                <FormLabel>Logo</FormLabel>
+                                                <FormControl>
+                                                    {renderCompanyLogo()}
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        </FormControl>
+                                    )}
+                                />
                             </div>
                             <div className='w-full py-4 lg:px-10 md:px-10 space-y-6'>
+                                <FormField
+                                    control={form.control}
+                                    name="location"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Location</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Dubai" {...field} disabled={!isEditing && userData !== null} />
+                                            </FormControl>
+                                            <FormDescription>
+                                                Type the Country
+                                            </FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+
+                                    )}
+                                />
                                 <FormField
                                     control={form.control}
                                     name="companyImageUrl"

@@ -17,10 +17,12 @@ model User {
   id String @id @default(uuid())
   userId String @unique
   name String @db.Text
+  bio String? @db.Text
   EducationLevel String? @db.Text
   InstitutionName String? @db.Text
   GraduationDate DateTime?
   email String? @unique @db.Text
+  stripe_customer_id String? @db.Text
   
   skills String? @db.Text
 
@@ -91,6 +93,8 @@ model Company {
   email String @db.Text
   CompanyDescription String? @db.Text
   CompanyImageUrl String? @db.Text
+  CompanyLogoUrl String? @db.Text
+  Location String @db.Text @default("")
 
   projects CreateInternship[]
 }

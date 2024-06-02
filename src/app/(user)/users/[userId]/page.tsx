@@ -52,15 +52,15 @@ const UserPublicPage = async ({
         }
     })
 
-    
-    
+
+
     const certificates = await db.certificate.findMany({
         where: {
             userId: user?.userId,
         }
     });
 
-    // console.log("CERT",certificates)
+    const userSkills = user?.skills ? user.skills.split(',') : [];
 
     return (
         <div>
@@ -88,13 +88,27 @@ const UserPublicPage = async ({
                         <CardDescription>{user?.InstitutionName}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Badge>{user?.skills}</Badge>
-                        <div className='flex flex-col py-2 justify-center'>
+                        <div className='flex space-x-2'>
+                            {userSkills ? userSkills.map((skill, index) => (
+                                <Badge key={index}>{skill.trim()}</Badge>
+                            )) : (
+                                <p className='text-sm  text-muted-foreground'>No Skills Added</p>
+                            )}
+                        </div>
+                        <div className='flex flex-col mt-4 justify-center space-y-2'>
                             <div>
-                                Education Level: {user?.EducationLevel}
+                                <h2 className='font-semibold'>Bio:</h2>
+                                <p className='whitespace-pre-wrap ml-2'>
+                                    {user?.bio}
+                                </p>
                             </div>
-                            <div>
-                                Graduation Date: {user?.GraduationDate ? user.GraduationDate.toDateString() : 'N/A'}
+                            <div className='flex'>
+                                <h2 className='font-semibold mr-2'>Education Level:</h2>
+                                {user?.EducationLevel}
+                            </div>
+                            <div className='flex'>
+                                <h2 className='font-semibold mr-2'>Graduation Date:</h2>
+                                {user?.GraduationDate ? user.GraduationDate.toDateString() : 'N/A'}
                             </div>
                         </div>
                         {user?.resume ? (
@@ -105,10 +119,10 @@ const UserPublicPage = async ({
                                 </div>
                             </Link>
                         ) : (
-                                <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
-                                    <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
-                                    No Resume Uploaded by {user?.name}
-                                </div>
+                            <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
+                                <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                                No Resume Uploaded by {user?.name}
+                            </div>
                         )}
                         <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Projects</h2>
                         {projects && projects.length > 0 ? (
@@ -132,7 +146,7 @@ const UserPublicPage = async ({
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                                                     <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                                                 </div>
-                                                    <div className='w-32 lg:w-[800px]'>
+                                                <div className='w-32 lg:w-[800px]'>
                                                     <h3 className="text-lg font-semibold">{project.name}</h3>
                                                     <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
                                                 </div>
@@ -140,21 +154,21 @@ const UserPublicPage = async ({
                                         )}
                                         <Link href={`/users/${userId}/${project.id}`} className='ml-auto'>
                                             <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:block hidden">
-                                               Learn More
+                                                Learn More
                                             </div>
                                             <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:hidden">
                                                 <ArrowBigRight />
                                             </div>
                                         </Link>
                                     </div>
-                                    
+
                                 ))}
                             </div>
                         ) : (
-                                <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
-                                    <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
-                                    No Projects Uploaded by {user?.name}
-                                </div>
+                            <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
+                                <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                                No Projects Uploaded by {user?.name}
+                            </div>
                         )}
                         <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Certificates</h2>
                         {certificates && certificates.length > 0 ? (
@@ -181,10 +195,10 @@ const UserPublicPage = async ({
                                 ))}
                             </div>
                         ) : (
-                                <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
-                                    <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
-                                    No Certificates Uploaded by {user?.name}
-                                </div>
+                            <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
+                                <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                                No Certificates Uploaded by {user?.name}
+                            </div>
                         )}
                     </CardContent>
                     <CardFooter>

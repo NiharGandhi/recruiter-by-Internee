@@ -7,7 +7,7 @@ import ShimmerButton from './magicui/shimmer-button'
 
 const Header = () => {
     return (
-        <div className='bg-[#6c5ce7] flex items-center justify-between py-2 px-4'>
+        <div className='bg-[#6c5ce7] dark:border-gray-800 dark:bg-gray-950 flex items-center justify-between py-2 px-4'>
             <div className='flex flex-col lg:flex-row items-start lg:items-center'>
                 <Link href="/">
                     <div className='flex flex-col lg:flex-row lg:items-baseline'>

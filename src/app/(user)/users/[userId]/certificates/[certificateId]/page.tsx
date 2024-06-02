@@ -5,18 +5,6 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
-import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -25,8 +13,8 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from 'next/link';
-import { ArrowBigRight, CalendarIcon, DownloadCloudIcon, FileIcon, InfoIcon, LinkIcon, PencilIcon } from 'lucide-react';
-import Image from 'next/image';
+import { DownloadCloudIcon, FileIcon, InfoIcon } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const PublicCertificatePage = async ({
     params
@@ -100,13 +88,15 @@ const PublicCertificatePage = async ({
                                     No Certificate Attachment Uploaded. Upload Now!!!
                                 </div>
                             )}
-                            
+
                         </div>
                     </div>
                     <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-16'>
                         <div className='mt-4 px-4'>
                             <h2 className='text-2xl font-semibold'>Description</h2>
-                            <p className='py-2 px-2 text-gray-800 bg-gray-100 rounded-lg'>{certificate.description}</p>
+                            <ScrollArea className='h-[370px] py-2 px-2 rounded-lg whitespace-pre-wrap'>
+                                {certificate.description}
+                            </ScrollArea>
                         </div>
                         <div className='mt-4 px-4'>
                             <h2 className='text-2xl font-semibold'>Link</h2>

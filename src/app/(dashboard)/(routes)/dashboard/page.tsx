@@ -1,7 +1,19 @@
 "use client";
 
+import NumberTicker from '@/components/magicui/number-ticker';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookIcon, CalendarIcon, GoalIcon, NetworkIcon, PlusCircle, PlusCircleIcon, PlusIcon, UserIcon, UsersIcon } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import axios from 'axios';
+import { CalendarIcon, GoalIcon, HomeIcon, LinkIcon, Moon, NetworkIcon, PlusCircleIcon, Sun, UserIcon, UsersIcon } from 'lucide-react'
+import { useTheme } from 'next-themes';
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
@@ -17,9 +29,39 @@ const Loader = () => (
 );
 
 const Dashboard = () => {
+  const { setTheme } = useTheme();
 
   const [isNavOpen, setIsNavOpen] = useState(false); // State to track if navbar is open
+  const [internships, setInternships] = useState([]);
   const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch users data from API
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/allUsers');
+        const data = await response.json();
+        // console.log(data);
+        setUsers(data);
+      } catch (error) {
+        console.error('Failed to fetch users', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchInternships = async () => {
+      try {
+        const response = await axios.get("/api/addInternships")
+        setInternships(response.data);
+      } catch (error) {
+
+      }
+    }
+    fetchInternships();
+  }, []);
 
   // Function to toggle navbar state
   const toggleNav = () => {
@@ -46,13 +88,6 @@ const Dashboard = () => {
           </Link>
           <Link
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-            href="/events"
-          >
-            <CalendarIcon className="h-4 w-4" />
-            Events
-          </Link>
-          <Link
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             href="/myOrganization/createInternship"
           >
             <PlusCircleIcon className="h-4 w-4" />
@@ -72,6 +107,34 @@ const Dashboard = () => {
             <UserIcon className="h-4 w-4" />
             My Organization
           </Link>
+          <Link
+            className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            href="/myPage"
+          >
+            <HomeIcon className="h-4 w-4" />
+            My Page
+          </Link>
+          <Label className='mt-4'>Theme:</Label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className='w-full'>
+              <Button variant="outline" size="icon" className="mt-auto">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className='w-full'>
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </div>
       {/* Mobile Navbar Toggle Button */}
@@ -101,13 +164,6 @@ const Dashboard = () => {
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/events"
-            >
-              <CalendarIcon className="h-4 w-4" />
-              Events
-            </Link>
-            <Link
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/myOrganization/createInternship"
             >
               <PlusCircleIcon className="h-4 w-4" />
@@ -127,13 +183,55 @@ const Dashboard = () => {
               <UserIcon className="h-4 w-4" />
               My Organization
             </Link>
+            <Link
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+              href="/myPage"
+            >
+              <HomeIcon className="h-4 w-4" />
+              My Page
+            </Link>
+            <Label className='mt-4'>Theme:</Label>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className='w-full'>
+                <Button variant="outline" size="icon" className="mt-auto">
+                  <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className='w-full'>
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                  System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
         </div>
       </div>
       <div className="flex flex-col">
         <main className="flex-1 lg:p-6 px-4 py-4">
           <div className="grid gap-6">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Internships</CardTitle>
+                  <CardDescription>No. of Internships posted by you</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="text-4xl font-bold">
+                      <NumberTicker value={internships.length} direction='up'></NumberTicker>
+                    </div>
+                    <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
+                  </div>
+                </CardContent>
+              </Card>
               <Card>
                 <CardHeader>
                   <CardTitle>Users</CardTitle>
@@ -142,43 +240,86 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="text-4xl font-bold">
-                      {/* <NumberTicker value={users.length} direction='up'></NumberTicker> */}
+                      <NumberTicker value={users.length} direction='up'></NumberTicker>
                     </div>
                     <UsersIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Upcoming Events</CardTitle>
-                  <CardDescription>Events youre attending</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-4xl font-bold">
-                      {/* <NumberTicker value={events.length} direction='up'></NumberTicker> */}
-                    </div>
-                    <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Resources</CardTitle>
-                  <CardDescription>Helpful resources for you</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-4xl font-bold">
-                      {/* <NumberTicker value={onlineResources.length} direction='up'></NumberTicker> */}
-                    </div>
-                    <BookIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
-                  </div>
-                </CardContent>
-              </Card>
             </div>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              Something Will Come here
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Internships</CardTitle>
+                </CardHeader>
+                <ScrollArea className='h-[300px]'>
+                  <CardContent>
+                    {internships !== null && (
+                      <div className='grid grid-cols-1 gap-4 mt-4'>
+                        {internships.map((project: any, index: number) => (
+                          <div key={index} className="flex items-center gap-4">
+                            {project.link ? ( // Check if project has a link
+                              <> {/* Wrap in Link if project has a link */}
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+                                  <Link href={project.link}>
+                                    <LinkIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                                  </Link>
+                                </div>
+                                <div className='w-32 lg:w-96'>
+                                  <h3 className="text-lg font-semibold">{project.name}</h3>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
+                                </div>
+                              </>
+                            ) : ( // Render just the div if project does not have a link
+                              <>
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+                                  <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                                </div>
+                                <div className='w-32 lg:w-96'>
+                                  <h3 className="text-lg font-semibold">{project.name}</h3>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
+                                </div>
+                              </>
+                            )}
+                            <div className='ml-auto space-x-1'>
+                              <Link href={`/myInternships/${project.id}`}>
+                                <Button>
+                                  Check Applications
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </ScrollArea>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Users</CardTitle>
+                </CardHeader>
+                <ScrollArea className='h-[300px]'>
+                  <CardContent>
+                    {users !== null && (
+                      <div className='grid grid-cols-1 gap-4 mt-4'>
+                        {users.map((user: any, index: number) => (
+                          <div key={index} className="flex items-center gap-4">
+                              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+                                <UserIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                              </div>
+                              <Link href={`/users/${user.id}`}>
+                                <div className='w-32 lg:w-96'>
+                                  <h3 className="text-lg font-semibold">{user.name}</h3>
+                                </div>
+                              </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </ScrollArea>
+              </Card>
             </div>
           </div>
         </main>
