@@ -48,7 +48,7 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from "@/components/ui/separator"
 
-import { CalendarIcon, DownloadCloudIcon, EllipsisVertical, FileIcon, LinkIcon } from 'lucide-react';
+import { CalendarIcon, ChevronDown, DownloadCloudIcon, EllipsisVertical, FileIcon, LinkIcon } from 'lucide-react';
 import { FileUpload } from '@/components/file-upload';
 import Link from 'next/link';
 import ProfileProjectsDisplay from '@/components/profileProjectsDisplay';
@@ -74,6 +74,7 @@ const formSchema = z.object({
     internshipRequirement: z.string().min(2),
     paid: z.boolean().default(false),
     amountPaid: z.string().optional(),
+    internshipType: z.string().min(1),
 })
 
 const Loader = () => (
@@ -117,11 +118,11 @@ const CreateInternship = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            educationLevel: "Any",
             internshipDescription: "",// or another default
             internshipRequirement: "",
             paid: false,
             amountPaid: "0",
+            internshipType: "",
         },
     });
 
@@ -134,6 +135,7 @@ const CreateInternship = () => {
                 internshipRequirement: internshipData.internshipRequirements,
                 paid: internshipData.Paid,
                 amountPaid: internshipData.AmountPaid,
+                internshipType: internshipData.InternshipType,
             })
         }
     }, [form, internshipData]);
@@ -245,44 +247,61 @@ const CreateInternship = () => {
                                         name="educationLevel"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Education Level</FormLabel>
+                                                <FormLabel>Education Level:</FormLabel>
                                                 <FormControl>
-                                                    <RadioGroup
-                                                        onValueChange={field.onChange}
-                                                        defaultValue={field.value}
-                                                        className="flex flex-col space-y-1"
-                                                    >
-                                                        <FormItem className="flex items-center space-x-3 space-y-0">
-                                                            <FormControl>
-                                                                <RadioGroupItem value="Any" />
-                                                            </FormControl>
-                                                            <FormLabel className="font-normal">
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button className="ml-2">
+                                                                {field.value || "Select education level"}
+                                                                <ChevronDown className="ml-2 h-4 w-4" />
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent>
+                                                            <DropdownMenuItem onClick={() => field.onChange("Any")}>
                                                                 Any
-                                                            </FormLabel>
-                                                        </FormItem>
-                                                        <FormItem className="flex items-center space-x-3 space-y-0">
-                                                            <FormControl>
-                                                                <RadioGroupItem value="High School Student" />
-                                                            </FormControl>
-                                                            <FormLabel className="font-normal">
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => field.onChange("High School")}>
                                                                 High School
-                                                            </FormLabel>
-                                                        </FormItem>
-                                                        <FormItem className="flex items-center space-x-3 space-y-0">
-                                                            <FormControl>
-                                                                <RadioGroupItem value="Bachelor Student" />
-                                                            </FormControl>
-                                                            <FormLabel className="font-normal">
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => field.onChange("Bachelors")}>
                                                                 Bachelors
-                                                            </FormLabel>
-                                                        </FormItem>
-                                                        <FormItem className="flex items-center space-x-3 space-y-0">
-                                                            <FormControl>
-                                                                <RadioGroupItem value="Masters Student" />
-                                                            </FormControl>
-                                                            <FormLabel className="font-normal">Masters</FormLabel>
-                                                        </FormItem>
-                                                    </RadioGroup>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => field.onChange("Masters")}>
+                                                                Masters
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="internshipType"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Internship Type:</FormLabel>
+                                                <FormControl>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button className="ml-2">
+                                                                {field.value || "Select Internship Type"}
+                                                                <ChevronDown className="ml-2 h-4 w-4" />
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent>
+                                                            <DropdownMenuItem onClick={() => field.onChange("on-site")}>
+                                                                on-site
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => field.onChange("hybrid")}>
+                                                                hybrid
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => field.onChange("remote")}>
+                                                                remote
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>

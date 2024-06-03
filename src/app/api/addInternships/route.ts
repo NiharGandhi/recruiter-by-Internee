@@ -12,7 +12,7 @@ export async function POST(req: Request,) {
             return new NextResponse("UNAUTHORIZED", { status: 500 })
         }
 
-        const { name, educationLevel, internshipDescription, internshipRequirement, paid, amountPaid } = await req.json();
+        const { name, educationLevel, internshipType, internshipDescription, internshipRequirement, paid, amountPaid } = await req.json();
 
         const newProject = await db.createInternship.create({
             data: {
@@ -22,7 +22,8 @@ export async function POST(req: Request,) {
                 InternshipDescription: internshipDescription,
                 InternshipRequirement: internshipRequirement,
                 Paid: paid,
-                AmountPaid: amountPaid
+                AmountPaid: amountPaid,
+                InternshipType: internshipType,
             }
         })
 

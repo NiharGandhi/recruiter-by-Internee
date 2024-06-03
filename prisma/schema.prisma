@@ -107,6 +107,7 @@ model CreateInternship {
   InternshipRequirement String? @db.Text
   Paid Boolean
   AmountPaid String? @db.Text
+  InternshipType String @db.Text @default("on-site")
   userId      String
   user        Company     @relation(fields: [userId], references: [userId])
   applications Application[]

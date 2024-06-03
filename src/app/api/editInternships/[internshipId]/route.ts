@@ -38,7 +38,7 @@ export async function PUT(req: Request,) {
             return new NextResponse("UNAUTHORIZED", { status: 500 })
         }
 
-        const { name, educationLevel, internshipDescription, internshipRequirement, paid, amountPaid } = await req.json();
+        const { name, educationLevel, internshipDescription, internshipRequirement, paid, amountPaid, internshipType } = await req.json();
 
         const newInternship = await db.createInternship.update({
             where: {
@@ -51,7 +51,8 @@ export async function PUT(req: Request,) {
                 InternshipDescription: internshipDescription,
                 InternshipRequirement: internshipRequirement,
                 Paid: paid,
-                AmountPaid: amountPaid
+                AmountPaid: amountPaid,
+                InternshipType: internshipType,
             }
         })
 
