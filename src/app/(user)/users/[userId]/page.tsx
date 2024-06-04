@@ -88,11 +88,11 @@ const UserPublicPage = async ({
                         <CardDescription>{user?.InstitutionName}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className='flex space-x-2'>
-                            {userSkills ? userSkills.map((skill, index) => (
+                        <div className='sm:flex-col space-x-1'>
+                            {user?.skills ? user?.skills.split(',').map((skill, index) => (
                                 <Badge key={index}>{skill.trim()}</Badge>
                             )) : (
-                                <p className='text-sm  text-muted-foreground'>No Skills Added</p>
+                                <p className='text-sm text-muted'>No Skills Added</p>
                             )}
                         </div>
                         <div className='flex flex-col mt-4 justify-center space-y-2'>
@@ -113,7 +113,7 @@ const UserPublicPage = async ({
                         </div>
                         {user?.resume ? (
                             <Link href={user?.resume}>
-                                <div className="flex items-center justify-center p-3 w-full bg-purple-100 border-purple-200 border text-purple-700 rounded-md">
+                                <div className="flex items-center justify-center p-3 w-full bg-purple-100 border-purple-200 border text-purple-700 rounded-md mt-4">
                                     {user?.name}&apos;s Resume
                                     <DownloadCloudIcon className='h-5 w-5 mr-2' />
                                 </div>

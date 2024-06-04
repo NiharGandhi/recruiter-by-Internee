@@ -30,18 +30,10 @@ const Loader = () => (
 );
 
 const MyInternshipsPage = () => {
-    const router = useRouter();
 
-    const { toast } = useToast();
-
-    const [userData, setUserData] = useState<any>(null);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [internshipData, setInternshipData] = useState<any>(null);
 
-    const toggleEdit = () => {
-        setIsEditing(!isEditing);
-    };
 
     useEffect(() => {
         const fetchCompanyInternships = async () => {
@@ -76,7 +68,7 @@ const MyInternshipsPage = () => {
                   <CardTitle>Your Internships</CardTitle>
               </CardHeader>
               <CardContent>
-                  {internshipData !== null && (
+                  {internshipData ? (internshipData !== null && (
                       <div className='grid grid-cols-1 gap-4 mt-4'>
                           {internshipData.map((project: any, index: number) => (
                               <div key={index} className="flex items-center gap-4">
@@ -113,6 +105,10 @@ const MyInternshipsPage = () => {
                               </div>
                           ))}
                       </div>
+                  )) : (
+                    <div className='text-2xl text-muted-foreground items-center justify-center'>
+                        No Internships Posted. POST NOW!!!
+                    </div>
                   )}
               </CardContent>
           </Card>

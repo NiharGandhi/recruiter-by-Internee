@@ -126,7 +126,7 @@ const InternshipEditPage = ({
             internshipDescription: "",// or another default
             internshipRequirement: "",
             paid: false,
-            amountPaid: "0",
+            amountPaid: "",
             internshipType: "",
         },
     });
@@ -423,8 +423,7 @@ const InternshipEditPage = ({
                                                         <FormLabel>Amount Paid</FormLabel>
                                                         <FormControl>
                                                             <Input 
-                                                                type="number" 
-                                                                placeholder="Amount" 
+                                                                placeholder="AED 1000, $1000, 1000 EURO" 
                                                                 {...field} 
                                                                 disabled={!isEditing} />
                                                         </FormControl>

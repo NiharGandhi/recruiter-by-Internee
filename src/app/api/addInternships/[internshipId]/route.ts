@@ -13,6 +13,7 @@ export async function DELETE(req: any) {
 
         const { pathname } = parse(req.url);
         const projectId = pathname?.split("/").pop();
+        console.log(projectId);
 
         // Check if projectId is provided
         if (!projectId) {
@@ -27,15 +28,29 @@ export async function DELETE(req: any) {
             }
         });
 
+        const applications = await db.application.findMany({
+            where: {
+                internshipId: projectId
+            }
+        })
+
         // If project is not found or doesn't belong to the user, return 404 Not Found
         if (!project) {
+            console.log("Project not found")
             return new NextResponse("Project not found", { status: 404 });
         }
+
+        await db.application.deleteMany({
+            where: {
+                internshipId: projectId
+            }
+        })
 
         // Delete the project
         await db.createInternship.delete({
             where: {
-                id: projectId
+                id: projectId,
+                userId: userId,
             }
         });
 
