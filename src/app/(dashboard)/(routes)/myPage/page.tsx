@@ -89,7 +89,7 @@ const MyPage = async () => {
                             <CardDescription>{internship.InternshipDescription}</CardDescription>
                         </CardHeader>
                         <CardFooter>
-                            <Link className='ml-auto' href={`/internships/${internship.id}`}>
+                            <Link className='ml-auto' href={`/myInternships/${internship.id}`}>
                                 <Button>
                                     Explore
                                 </Button>

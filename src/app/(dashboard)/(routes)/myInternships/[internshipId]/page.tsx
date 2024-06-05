@@ -64,7 +64,13 @@ const ApplicationPage = async ({ params }) => {
                         <CardDescription>{app.user.InstitutionName}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Badge>{app.user.skills}</Badge>
+                        <div className='sm:flex-col space-x-1'>
+                            {app.user.skills ? app.user.skills.split(",").map((skill, index) => (
+                                <Badge key={index}>{skill.trim()}</Badge>
+                            )) : (
+                                <p className='text-sm text-muted'>No Skills Added</p>
+                            )}
+                        </div>
                         <div className='flex flex-col py-2 justify-center'>
                             <div className='flex'>
                                 Education Level:
