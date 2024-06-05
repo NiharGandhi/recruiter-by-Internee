@@ -83,11 +83,27 @@ const PublicProjectPage = async ({
                                 {project.description}
                             </ScrollArea>
                         </div>
+                    </div>
+                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-14 py-6'>
+                        <div className='mt-4 px-4 '>
+                            <h2 className='text-2xl font-semibold'>Image</h2>
+                            {project.imageUrl ? (
+                                <Image
+                                    src={project.imageUrl}
+                                    alt="Hero"
+                                    className="mx-auto rounded-xl mt-2 sm:w-full lg:order-last"
+                                    width={"550"}
+                                    height={"310"}
+                                />
+                            ) : (
+                                <p className='text-muted-foreground'>No Project Image uploaded</p>
+                            )}
+                        </div>
                         <div className='mt-4 px-4'>
                             <h2 className='text-2xl font-semibold'>Link</h2>
                             {project.link ? ( // Check if project has a link
                                 <> {/* Wrap in Link if project has a link */}
-                                    <div className="py-16 px-2 text-gray-800 bg-gray-100 rounded-lg hover:text-blue-500 hover:underline w-auto">
+                                    <div className="py-1 px-2 rounded-lg hover:text-blue-500 hover:underline w-auto">
                                         <Link href={project.link}>
                                             <p className='overflow-clip'>{project.link}</p>
                                         </Link>
@@ -99,22 +115,6 @@ const PublicProjectPage = async ({
                                         <p>No Links</p>
                                     </div>
                                 </>
-                            )}
-                        </div>
-                    </div>
-                    <div className='w-full lg:w-1/2 md:w-1/2 space-y-6 lg:py-14 py-6'>
-                        <div className='mt-4 px-4 '>
-                            <h2 className='text-2xl font-semibold'>Image</h2>
-                            {project.imageUrl ? (
-                                <Image
-                                    src={project.imageUrl}
-                                    alt="Hero"
-                                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                                    width={"550"}
-                                    height={"310"}
-                                />
-                            ) : (
-                                <p className='text-muted-foreground'>No Project Image uploaded</p>
                             )}
                         </div>
                     </div>
