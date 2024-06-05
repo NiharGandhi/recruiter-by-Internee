@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Internee",
+  title: "Internee Recruiter",
   description: "The One App For All your Internship needs.",
 };
 
