@@ -20,6 +20,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <script
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places`}
+          ></script>
+        </head>
         <body className={inter.className}>
           <ThemeProvider
             attribute="class"

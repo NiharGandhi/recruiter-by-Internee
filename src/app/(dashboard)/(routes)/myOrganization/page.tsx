@@ -37,15 +37,19 @@ import { FileUpload } from '@/components/file-upload';
 import { Textarea } from '@/components/ui/textarea';
 import CompanyInterhsipsDisplay from '@/components/CompanyInternshipsDisplay';
 
+import usePlacesAutocomplete from 'use-places-autocomplete';
+
 import FallBack from "../../../../../public/fallback.png";
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 
 
 const formSchema = z.object({
     name: z.string().min(2).max(50),
-    email: z.string().email(),
-    companyDescription: z.string().min(2),
-    companyImageUrl: z.string(),
-    companyLogoUrl: z.string(),
+    email: z.string().email("Email is required"),
+    companyDescription: z.string().min(2, "A description is required"),
+    companyImageUrl: z.string({message:"A Logo is required"}),
+    companyLogoUrl: z.string({message: "A Banner is required"}),
     location: z.string().min(1, "Location is required."),
 })
 
@@ -59,7 +63,6 @@ const Loader = () => (
     </div>
 );
 
-
 const MyProfile = () => {
     const { toast } = useToast();
 
@@ -68,8 +71,29 @@ const MyProfile = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [internshipData, setInternshipData] = useState<any>(null);
 
+    // Google AutoComplete
+    const [open, setOpen] = React.useState(false);
+    const [selectedLocation, setSelectedLocation] = useState("");
+
+    const {
+        ready,
+        value,
+        setValue,
+        suggestions: { status, data },
+        clearSuggestions,
+    } = usePlacesAutocomplete({ debounce: 300 });
+
     const toggleEdit = () => {
         setIsEditing(!isEditing);
+    };
+
+    const handleLocationInput = (e) => {
+        setValue(e.target.value);
+    };
+
+    const handleLocationSelect = (val) => {
+        setValue(val, false);
+        setSelectedLocation(val); // Update local state with selected location
     };
 
     useEffect(() => {
@@ -293,8 +317,11 @@ const MyProfile = () => {
                                         <FormItem>
                                             <FormLabel>Contact Email</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Internee" {...field} disabled={!isEditing && userData !== null} />
+                                                <Input placeholder="hr@internee.com" {...field} disabled={!isEditing && userData !== null} />
                                             </FormControl>
+                                            <FormDescription>
+                                                This is your public display email.
+                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
 
@@ -308,12 +335,15 @@ const MyProfile = () => {
                                             <FormLabel>About</FormLabel>
                                             <FormControl>
                                                 <Textarea 
-                                                    placeholder='lfnsfkbsfkbs'
+                                                    placeholder='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
                                                     {...field}
                                                     className='resize-none'
                                                     disabled={!isEditing && userData !== null} 
                                                 />
                                             </FormControl>
+                                            <FormDescription>
+                                                A breif about your Company and it&apos;s mission.
+                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
 
@@ -329,6 +359,9 @@ const MyProfile = () => {
                                                 <FormControl>
                                                     {renderCompanyLogo()}
                                                 </FormControl>
+                                                <FormDescription>
+                                                    Logo of your company.
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         </FormControl>
@@ -342,11 +375,46 @@ const MyProfile = () => {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Location</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Dubai" {...field} disabled={!isEditing && userData !== null} />
-                                            </FormControl>
+                                            <Popover open={open} onOpenChange={setOpen}>
+                                                <PopoverTrigger asChild disabled={!isEditing && userData !== null} className='ml-2'>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant="outline"
+                                                            role="combobox"
+                                                            aria-expanded={open}
+                                                            className="justify-between"
+                                                        >
+                                                            {field.value || "Select Location"}
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <Command>
+                                                        <CommandInput
+                                                            value={field.value}
+                                                            placeholder="Location..."
+                                                            onInput={handleLocationInput}
+                                                            disabled={!ready}
+                                                        />
+                                                        <CommandEmpty>No Location found.</CommandEmpty>
+                                                        <CommandList>
+                                                            {status === "OK" && data && data.map(({ place_id, description }) => (
+                                                                <CommandItem
+                                                                    key={place_id}
+                                                                    value={description}
+                                                                    onSelect={() => {
+                                                                        form.setValue("location", description)
+                                                                    }}
+                                                                >
+                                                                    {description}
+                                                                </CommandItem>
+                                                            ))}
+                                                        </CommandList>
+                                                    </Command>
+                                                </PopoverContent>
+                                            </Popover>
                                             <FormDescription>
-                                                Type the Country
+                                                Enter the location of where you are based from.
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -363,6 +431,9 @@ const MyProfile = () => {
                                                 <FormControl>
                                                     {renderCompanyImage()}
                                                 </FormControl>
+                                                <FormDescription>
+                                                    Banner for your company page.
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         </FormControl>
