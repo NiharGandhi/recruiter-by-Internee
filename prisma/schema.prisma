@@ -9,24 +9,24 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @map("_id")
   userId String @unique
-  name String @db.Text
-  bio String? @db.Text
-  EducationLevel String? @db.Text
-  InstitutionName String? @db.Text
+  name String 
+  bio String? 
+  EducationLevel String? 
+  InstitutionName String?
   GraduationDate DateTime?
-  email String? @unique @db.Text
-  stripe_customer_id String? @db.Text
+  email String? @unique 
+  stripe_customer_id String?
   
-  skills String? @db.Text
+  skills String?
 
-  resume String? @db.Text
+  resume String?
 
   role UserRole @default(USER)
   projects Project[]
@@ -40,81 +40,81 @@ enum UserRole {
 }
 
 model Project {
-  id          String   @id @default(uuid())
-  name        String   @db.Text
-  description String   @db.Text
-  link        String?  @db.Text
-  imageUrl    String? @db.Text
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  description String   
+  link        String?  
+  imageUrl    String? 
   userId      String
   user        User     @relation(fields: [userId], references: [userId])
 }
 
 model Certificate {
-  id          String   @id @default(uuid())
-  name        String   @db.Text
-  description String   @db.Text
-  link        String?  @db.Text
-  certificateUrl    String? @db.Text
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  description String   
+  link        String?  
+  certificateUrl    String? 
   userId      String
   user        User     @relation(fields: [userId], references: [userId])
 }
 
 model Events {
-  id String @id @default(uuid())
-  title String @db.Text
+  id String @id @default(uuid()) @map("_id")
+  title String 
   dateTime DateTime
 }
 
 model OnlineReourses {
-  id String @id @default(uuid())
-  name String @db.Text
-  desc String @db.Text
-  link String @db.Text
+  id String @id @default(uuid()) @map("_id")
+  name String
+  desc String 
+  link String
 }
 
 model RecommendedBooks {
-  id String @id @default(uuid())
-  name String @db.Text
-  author String @db.Text
-  link String @db.Text
+  id String @id @default(uuid()) @map("_id")
+  name String 
+  author String 
+  link String 
 }
 
 model UsefulTools {
-  id String @id @default(uuid())
-  name String @db.Text
-  desc String @db.Text
-  link String @db.Text
+  id String @id @default(uuid()) @map("_id")
+  name String 
+  desc String 
+  link String 
 }
 
 model Company {
-  id String @id @default(uuid())
+  id String @id @default(uuid()) @map("_id")
   userId String @unique
-  name String @db.Text
-  email String @db.Text
-  CompanyDescription String? @db.Text
-  CompanyImageUrl String? @db.Text
-  CompanyLogoUrl String? @db.Text
-  Location String @db.Text @default("")
+  name String 
+  email String
+  CompanyDescription String?
+  CompanyImageUrl String? 
+  CompanyLogoUrl String? 
+  Location String @default("")
 
   projects CreateInternship[]
 }
 
 model CreateInternship {
-  id          String   @id @default(uuid())
-  name        String   @db.Text
-  EducationLevel String? @db.Text
-  InternshipDescription String? @db.Text
-  InternshipRequirement String? @db.Text
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  EducationLevel String? 
+  InternshipDescription String?
+  InternshipRequirement String?
   Paid Boolean
-  AmountPaid String? @db.Text
-  InternshipType String @db.Text @default("on-site")
+  AmountPaid String?
+  InternshipType String @default("on-site")
   userId      String
   user        Company     @relation(fields: [userId], references: [userId])
   applications Application[]
 }
 
 model Application {
-  id                   String             @id @default(uuid())
+  id                   String             @id @default(uuid()) @map("_id")
   user                 User               @relation(fields: [userId], references: [id])
   userId               String
   internship           CreateInternship   @relation(fields: [internshipId], references: [id])
