@@ -3,10 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { db } from '@/lib/db';
-import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import Header from '@/components/header';
 import {
     Card,
     CardContent,
@@ -18,13 +15,12 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import AnimatedGradientText from '@/components/magicui/animated-gradient-text';
 import { Input } from '@/components/ui/input';
 
-const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => {
+const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(5);
+    const [usersPerPage] = useState(10);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSkill, setSelectedSkill] = useState('');
     const [selectedInstitution, setSelectedInstitution] = useState('');
@@ -32,8 +28,6 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
     const [skills, setSkills] = useState<string[]>([]);
     const [institutions, setInstitutions] = useState<string[]>([]);
     const [educationLevels, setEducationLevels] = useState<string[]>([]);
-
-
 
     // Extract all unique values for skills, institution, and education level
     useEffect(() => {
@@ -61,16 +55,16 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
         setEducationLevels(Array.from(allEducationLevels));
     }, [users]);
 
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
-
-    const filteredUsers = currentUsers.filter((user: { name: string; skills: string; InstitutionName: string; EducationLevel: string; }) =>
+    const filteredUsers = users.filter((user: { name: string; skills: string; InstitutionName: string; EducationLevel: string; }) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (selectedSkill === '' || (user.skills && user.skills.toLowerCase().includes(selectedSkill.toLowerCase()))) &&
         (selectedInstitution === '' || user.InstitutionName === selectedInstitution) &&
         (selectedEducationLevel === '' || user.EducationLevel === selectedEducationLevel)
     );
+
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
     const formatDate = (dateString: string | number | Date) => {
         if (!dateString) return 'N/A';
@@ -97,6 +91,25 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
         setCurrentPage(1);
     };
 
+    const handleNextPage = () => {
+        if (currentPage < Math.ceil(filteredUsers.length / usersPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const clearFilters = () => {
+        setSelectedEducationLevel('');
+        setSelectedInstitution('');
+        setSelectedSkill('');
+        setCurrentPage(1);
+    };
+
     if (!userId) {
         return redirect("/");
     }
@@ -111,7 +124,7 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-                {/* Filter Dropdown */}
+                {/* Filter Dropdowns */}
                 <select
                     value={selectedSkill}
                     onChange={(e) => handleSkillChange(e.target.value)}
@@ -142,8 +155,9 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
                         <option key={level} value={level}>{level}</option>
                     ))}
                 </select>
+                <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
                 {/* User Cards */}
-                {filteredUsers.map((user: { id: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; InstitutionName: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; skills: string; EducationLevel: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; GraduationDate: string | number | Date; email: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }) => (
+                {currentUsers.map((user: { id: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; InstitutionName: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; skills: string; EducationLevel: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; GraduationDate: string | number | Date; email: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }) => (
                     <Card key={user.id} className='mb-4'>
                         <CardHeader>
                             <CardTitle className='font-bold'>{user.name}</CardTitle>
@@ -196,6 +210,12 @@ const SearchUsersPage = ({ userId, users } : { userId: string, users: any }) => 
                         </CardFooter>
                     </Card>
                 ))}
+                {/* Pagination Controls */}
+                <div className="flex justify-center space-x-4 mt-4">
+                    <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
+                    <span className='py-2'>Page {currentPage} of {Math.ceil(filteredUsers.length / usersPerPage)}</span>
+                    <Button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredUsers.length / usersPerPage)}>Next</Button>
+                </div>
             </div>
         </div>
     );
