@@ -91,11 +91,6 @@ const MyProfile = () => {
         setValue(e.target.value);
     };
 
-    const handleLocationSelect = (val) => {
-        setValue(val, false);
-        setSelectedLocation(val); // Update local state with selected location
-    };
-
     useEffect(() => {
         const fetchCompanyInternships = async () => {
             try {
