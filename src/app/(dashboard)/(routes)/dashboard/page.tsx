@@ -220,7 +220,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="text-4xl font-bold">
-                      <NumberTicker value={internships.length} direction='up'></NumberTicker>
+                      <NumberTicker value={internships.length === 0 ? 0 : internships.length} direction='up'></NumberTicker>
                     </div>
                     <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </div>
