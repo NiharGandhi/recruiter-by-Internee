@@ -106,7 +106,6 @@ const MyProfile = () => {
             }
         };
         fetchCompanyInternships();
-        setLoading(false);
     }, []);
 
     useEffect(() => {
@@ -114,12 +113,12 @@ const MyProfile = () => {
             try {
                 const response = await axios.get("/api/myOrganization");
                 setUserData(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
         fetchUserData();
-        setLoading(false);
     }, []);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -391,7 +390,7 @@ const MyProfile = () => {
                                                 <PopoverContent>
                                                     <Command>
                                                         <CommandInput
-                                                            value={field.value}
+                                                            value={value}
                                                             placeholder="Location..."
                                                             onInput={handleLocationInput}
                                                             disabled={!ready}

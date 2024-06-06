@@ -274,6 +274,9 @@ const InternshipEditPage = ({
                                                     placeholder="Internee" 
                                                     {...field} />
                                             </FormControl>
+                                            <FormDescription>
+                                                What is the Internship Called
+                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
 
@@ -309,6 +312,9 @@ const InternshipEditPage = ({
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </FormControl>
+                                            <FormDescription>
+                                                Is the internship for: | High School Student | Bachelors Student | Master Student |
+                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -340,6 +346,9 @@ const InternshipEditPage = ({
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>
                                             </FormControl>
+                                            <FormDescription>
+                                                Is the internship: | on-site | hybrid | remote |
+                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -381,7 +390,7 @@ const InternshipEditPage = ({
                                                     {...field} />
                                             </FormControl>
                                             <FormDescription>
-                                                Brief description of the Internship
+                                                Requirements for the Internship
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
@@ -423,10 +432,13 @@ const InternshipEditPage = ({
                                                         <FormLabel>Amount Paid</FormLabel>
                                                         <FormControl>
                                                             <Input 
-                                                                placeholder="AED 1000, $1000, 1000 EURO" 
+                                                                placeholder="AED 1000, USD 100 ..."
                                                                 {...field} 
                                                                 disabled={!isEditing} />
                                                         </FormControl>
+                                                        <FormDescription>
+                                                            Amount Paid per month, with the currency
+                                                        </FormDescription>
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
@@ -438,7 +450,6 @@ const InternshipEditPage = ({
                             </div>
                         </form>
                     </Form>
-                    <Separator />
                 </div>
             </div>
         </>

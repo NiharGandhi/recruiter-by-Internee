@@ -40,12 +40,12 @@ const MyInternshipsPage = () => {
             try {
                 const response = await axios.get("/api/addInternships");
                 setInternshipData(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
         fetchCompanyInternships();
-        setLoading(false);
     }, []);
 
     if (loading) return <Loader />;

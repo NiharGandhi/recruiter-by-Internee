@@ -31,37 +31,31 @@ const Loader = () => (
 const Dashboard = () => {
   const { setTheme } = useTheme();
 
-  const [isNavOpen, setIsNavOpen] = useState(false); // State to track if navbar is open
+  const [loading, setLoading] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [internships, setInternships] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Fetch users data from API
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/allUsers');
-        const data = await response.json();
-        // console.log(data);
-        setUsers(data);
+        const [userDataResponse, internshipDataResponse] = await Promise.all([
+          axios.get("/api/allUsers"),
+          axios.get("/api/addInternships")
+        ]);
+        setUsers(userDataResponse.data);
+        setInternships(internshipDataResponse.data);
+        setLoading(false);
       } catch (error) {
-        console.error('Failed to fetch users', error);
+        console.error("Error fetching data", error);
       }
     };
 
-    fetchUsers();
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchInternships = async () => {
-      try {
-        const response = await axios.get("/api/addInternships")
-        setInternships(response.data);
-      } catch (error) {
 
-      }
-    }
-    fetchInternships();
-  }, []);
+  if (loading) return <div><Loader /></div>;
 
   // Function to toggle navbar state
   const toggleNav = () => {

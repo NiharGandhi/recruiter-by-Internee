@@ -56,77 +56,94 @@ const ApplicationPage = async ({ params }) => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className='font-bold text-4xl mb-2'>Applications for Internship {internshipData.name}</h1>
-            {applications.map(app => (
-                <Card key={app.id} className='mb-4'>
-                    <CardHeader>
-                        <CardTitle className='font-bold'>{app.user.name}</CardTitle>
-                        <CardDescription>{app.user.InstitutionName}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className='sm:flex-col space-x-1'>
-                            {app.user.skills ? app.user.skills.split(",").map((skill, index) => (
-                                <Badge key={index}>{skill.trim()}</Badge>
-                            )) : (
-                                <p className='text-sm text-muted'>No Skills Added</p>
-                            )}
-                        </div>
-                        <div className='flex flex-col py-2 justify-center'>
-                            <div className='flex'>
-                                Education Level:
-                                <div className='ml-1 font-semibold'>
-                                    {app.user.EducationLevel}
-                                </div>
-                            </div>
-                            <div className='flex'>
-                                Graduation Date:
-                                <div className='ml-1 font-semibold'>
-                                    {formatDate(app.user.GraduationDate)}
-                                </div>
-                            </div>
-                            <div className='flex'>
-                                Email:
-                                <div className='ml-1 font-semibold'>
-                                    {app.user.email}
-                                </div>
-                            </div>
-                            {app.user.resume ? (
-                                <div className='flex'>
-                                    Resume:
-                                    <div className='ml-1 font-semibold'>
-                                        <Link href={app.user.resume}>
-                                            <Badge className='bg-emerald-300 text-black hover:text-white'>
-                                                {app.user.name}&apos;s Resume
-                                            </Badge>
-                                        </Link>
-                                    </div>
-                                </div>
-                            ) : (
-                                    <div className='flex'>
-                                        Resume:
-                                        <div className='ml-1 font-semibold'>
-                                            <Badge className='bg-emerald-300 text-black hover:text-white'>
-                                                No Resume
-                                            </Badge>
+            <h1 className='font-bold text-4xl mt-4'>Applications for Internship {internshipData.name}</h1>
+            <div className='mt-8'>
+                {applications.length > 0 ? (
+                    <>
+                        {applications.map(app => (
+                            <Card key={app.id} className='mb-4'>
+                                <CardHeader>
+                                    <CardTitle className='font-bold'>{app.user.name}</CardTitle>
+                                    <CardDescription>{app.user.InstitutionName}</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className='flex flex-col justify-center space-y-2'>
+                                        <div className='sm:flex-col space-x-1'>
+                                            <p className='text-muted-foreground'>Skills:</p>
+                                            {app.user.skills ? app.user.skills.split(",").map((skill, index) => (
+                                                <Badge key={index}>{skill.trim()}</Badge>
+                                            )) : (
+                                                <p className='text-sm text-muted'>No Skills Added</p>
+                                            )}
+                                        </div>
+                                        <div className='flex'>
+                                            <p className='text-muted-foreground'>Education Level:</p>
+                                            <div className='ml-1 font-semibold'>
+                                                {app.user.EducationLevel}
+                                            </div>
+                                        </div>
+                                        <div className='flex'>
+                                            <p className='text-muted-foreground'>Graduation Date:</p>
+                                            <div className='ml-1 font-semibold'>
+                                                {formatDate(app.user.GraduationDate)}
+                                            </div>
+                                        </div>
+                                        <div className='flex'>
+                                            <p className='text-muted-foreground'>Email:</p>
+                                            <div className='ml-1 font-semibold'>
+                                                {app.user.email}
+                                            </div>
+                                        </div>
+                                        {app.user.resume ? (
+                                            <div className='flex'>
+                                                <p className='text-muted-foreground'>Resume:</p>
+                                                <div className='ml-1 font-semibold'>
+                                                    <Link href={app.user.resume}>
+                                                        <Badge className='bg-emerald-300 text-black'>
+                                                            {app.user.name}&apos;s Resume
+                                                        </Badge>
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className='flex'>
+                                                <p className='text-muted-foreground'>Resume:</p>
+                                                <div className='ml-1 font-semibold'>
+                                                    <Badge className='bg-emerald-300 text-black hover:text-white'>
+                                                        No Resume
+                                                    </Badge>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div className='flex'>
+                                            <p className='text-muted-foreground'>User&apos;s profile:</p>
+                                            <div className='ml-1'>
+                                                <Link href={`/users/${app.user.id}`}>
+                                                    <Badge>Visit Profile</Badge>
+                                                </Link>
+                                            </div>
                                         </div>
                                     </div>
-                            )}
-                            <div className='flex'>
-                                User Profile:
-                                <div className='ml-1'>
-                                    <Link href={`/users/${app.user.id}`}>
-                                        <Badge>Visit Profile</Badge>
-                                    </Link>
+                                </CardContent>
+                                <CardFooter>
+                                    Status:
+                                    <UpdateStatusButton applicationId={app.id} />
+                                </CardFooter>
+                            </Card>
+                        ))
+                        }
+                    </>
+                ) : (
+                    <div>
+                            <div className='py-4 px-8'>
+                                <div className='flex flex-col items-center justify-center text-muted-foreground text-xl lg:text-4xl space-y-4'>
+                                    <h1>No Applications Received.</h1>
                                 </div>
                             </div>
-                        </div>                        
-                    </CardContent>
-                    <CardFooter>
-                        Status:
-                        <UpdateStatusButton applicationId={app.id} />
-                    </CardFooter>
-                </Card>
-            ))}
+                    </div>
+                )}
+                
+            </div>
         </div>
     );
 };

@@ -235,8 +235,11 @@ const CreateInternship = () => {
                                             <FormItem>
                                                 <FormLabel>Internship Title</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Internee" {...field} />
+                                                    <Input placeholder="Marekting Intern, OpenCV Analyst, Data Science Intern, Video Editing Internship..." {...field} />
                                                 </FormControl>
+                                                <FormDescription>
+                                                    What is the Internship Called
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
 
@@ -272,6 +275,9 @@ const CreateInternship = () => {
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </FormControl>
+                                                <FormDescription>
+                                                    Is the internship for: | High School Student | Bachelors Student | Master Student |
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -303,6 +309,9 @@ const CreateInternship = () => {
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </FormControl>
+                                                <FormDescription>
+                                                    Is the internship: | on-site | hybrid | remote |
+                                                </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -340,7 +349,7 @@ const CreateInternship = () => {
                                                         {...field} />
                                                 </FormControl>
                                                 <FormDescription>
-                                                    Brief description of the Internship
+                                                    Requirements for the Internship
                                                 </FormDescription>
                                                 <FormMessage />
                                             </FormItem>
@@ -380,8 +389,11 @@ const CreateInternship = () => {
                                                         <FormItem>
                                                             <FormLabel>Amount Paid</FormLabel>
                                                             <FormControl>
-                                                                <Input type="number" placeholder="Amount" {...field} />
+                                                                <Input placeholder="AED 1000, USD 100 ..." {...field} />
                                                             </FormControl>
+                                                            <FormDescription>
+                                                                Amount Paid per month, with the currency
+                                                            </FormDescription>
                                                             <FormMessage />
                                                         </FormItem>
                                                     )}
