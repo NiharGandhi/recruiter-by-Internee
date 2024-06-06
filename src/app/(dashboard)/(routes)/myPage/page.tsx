@@ -118,7 +118,7 @@ const MyPage = async () => {
                     </div>
                 </div>
             ) : (
-            <div className='flex items-center text-center justify-center justify-items-start'>
+            <div className='flex flex-col items-center text-center justify-center justify-items-start h-max'>
                 <h2>Please setup your Organization Details</h2>
                 <Link href={"myOrganization"}>
                     <Button variant="secondary">My Organization</Button>
