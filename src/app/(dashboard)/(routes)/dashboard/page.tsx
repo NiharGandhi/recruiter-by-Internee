@@ -48,13 +48,13 @@ const Dashboard = () => {
         setUsers(userDataResponse.data);
         setInternships(internshipDataResponse.data);
         setOrganizationData(organizationData.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching data", error);
       }
     };
 
     fetchData();
+    setLoading(false);
   }, []);
 
   if (!organizationData) {
