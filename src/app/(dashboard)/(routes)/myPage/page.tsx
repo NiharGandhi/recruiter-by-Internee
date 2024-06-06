@@ -118,11 +118,13 @@ const MyPage = async () => {
                     </div>
                 </div>
             ) : (
-            <div className='flex flex-col items-center text-center justify-center justify-items-start space-y-4 max-h-min'>
-                <h2>Please setup your Organization Details</h2>
-                <Link href={"myOrganization"}>
-                    <Button variant="secondary">My Organization</Button>
-                </Link>
+            <div>
+                <div className='flex flex-col items-center text-center justify-center justify-items-start space-y-4'>
+                    <h2>Please setup your Organization Details</h2>
+                    <Link href={"myOrganization"}>
+                        <Button variant="secondary">My Organization</Button>
+                    </Link>
+                </div>
             </div>
         )}
         </>
