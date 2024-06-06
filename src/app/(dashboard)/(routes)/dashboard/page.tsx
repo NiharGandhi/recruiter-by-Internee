@@ -40,14 +40,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [userDataResponse, internshipDataResponse, organizationData] = await Promise.all([
+        const [userDataResponse, internshipDataResponse] = await Promise.all([
           axios.get("/api/allUsers"),
           axios.get("/api/addInternships"),
-          axios.get("/api/myOrganization"),
         ]);
         setUsers(userDataResponse.data);
         setInternships(internshipDataResponse.data);
-        setOrganizationData(organizationData.data);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -56,17 +54,6 @@ const Dashboard = () => {
     fetchData();
     setLoading(false);
   }, []);
-
-  if (!organizationData) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">Please complete your profile to access the app&apos;s features.</p>
-        <Link href="/myOrganization">
-          <Button>My Organization</Button>
-        </Link>
-      </div>
-    );
-  }
 
   if (loading) return <div><Loader /></div>;
 
