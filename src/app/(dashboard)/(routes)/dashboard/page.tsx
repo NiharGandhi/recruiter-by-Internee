@@ -34,7 +34,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [internships, setInternships] = useState([]);
-  const [organizationData, setOrganizationData] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -54,6 +53,7 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
 
   if (loading) return <div><Loader /></div>;
 
@@ -220,7 +220,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="text-4xl font-bold">
-                      <NumberTicker value={internships.length === 0 ? 0 : internships.length} direction='up'></NumberTicker>
+                      <NumberTicker value={internships.length}></NumberTicker>
                     </div>
                     <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </div>

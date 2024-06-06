@@ -24,19 +24,30 @@ export default function NumberTicker({
     const isInView = useInView(ref, { once: true, margin: "0px" });
 
     useEffect(() => {
-        isInView &&
-            setTimeout(() => {
-                motionValue.set(direction === "down" ? 0 : value);
-            }, delay * 1000);
+        if (isInView) {
+            if (value === 0) {
+                if (ref.current) {
+                    ref.current.textContent = "0";
+                }
+            } else {
+                setTimeout(() => {
+                    motionValue.set(direction === "down" ? 0 : value);
+                }, delay * 1000);
+            }
+        }
     }, [motionValue, isInView, delay, value, direction]);
 
     useEffect(
         () =>
             springValue.on("change", (latest) => {
                 if (ref.current) {
-                    ref.current.textContent = Intl.NumberFormat("en-US").format(
-                        latest.toFixed(0),
-                    );
+                    if (latest === 0) {
+                        ref.current.textContent = "0";
+                    } else {
+                        ref.current.textContent = Intl.NumberFormat("en-US").format(
+                            latest.toFixed(0),
+                        );
+                    }
                 }
             }),
         [springValue],
