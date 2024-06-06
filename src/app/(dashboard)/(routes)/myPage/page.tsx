@@ -23,6 +23,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { ArrowLeft } from 'lucide-react';
 import FallBack from "../../../../../public/fallback.png";
 import { Separator } from '@/components/ui/separator';
+import Placeholder from "../../../../../public/myPagePlaceholder.svg";
 
 
 
@@ -120,8 +121,17 @@ const MyPage = async () => {
             ) : (
             <div>
                 <div className='flex flex-col items-center text-center justify-center justify-items-start space-y-4'>
-                    <h2>Please setup your Organization Details</h2>
-                    <Link href={"myOrganization"}>
+                    <h2 className='mt-10 lg:mt-20 text-muted-foreground font-bold'>Please setup your Organization Details</h2>
+                    <Link href={"/myOrganization"}>
+                        <Image
+                            src={Placeholder}
+                            alt='No Organization Details'
+                            width={400}
+                            height={400}
+                            className='animate-pulse'
+                        />
+                    </Link>
+                    <Link href={"/myOrganization"}>
                         <Button variant="secondary">My Organization</Button>
                     </Link>
                 </div>
