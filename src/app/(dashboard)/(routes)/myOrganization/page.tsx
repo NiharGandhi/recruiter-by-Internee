@@ -113,12 +113,12 @@ const MyProfile = () => {
             try {
                 const response = await axios.get("/api/myOrganization");
                 setUserData(response.data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
         fetchUserData();
+        setLoading(false);
     }, []);
 
     const form = useForm<z.infer<typeof formSchema>>({
