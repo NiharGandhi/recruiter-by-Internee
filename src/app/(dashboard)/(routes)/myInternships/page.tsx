@@ -1,7 +1,5 @@
 "use client";
 
-import CompanyInterhsipsDisplay from '@/components/CompanyInternshipsDisplay';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -12,12 +10,12 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
-import { useToast } from '@/components/ui/use-toast';
 import axios from 'axios';
-import { CalendarIcon, EllipsisVertical, LinkIcon } from 'lucide-react';
+import { CalendarIcon, LinkIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import NoDataPlaceholder from "../../../../../public/myPagePlaceholder.svg";
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const Loader = () => (
     <div className="flex justify-center items-center h-screen">
@@ -68,7 +66,7 @@ const MyInternshipsPage = () => {
                   <CardTitle>Your Internships</CardTitle>
               </CardHeader>
               <CardContent>
-                  {internshipData ? (internshipData !== null && (
+                  {internshipData.l ? (internshipData !== null && (
                       <div className='grid grid-cols-1 gap-4 mt-4'>
                           {internshipData.map((project: any, index: number) => (
                               <div key={index} className="flex items-center gap-4">
@@ -106,8 +104,15 @@ const MyInternshipsPage = () => {
                           ))}
                       </div>
                   )) : (
-                    <div className='text-2xl text-muted-foreground items-center justify-center'>
-                        No Internships Posted. POST NOW!!!
+                    <div className='flex flex-col items-center justify-center'>
+                        <h1 className='text-2xl text-muted-foreground'>No Internships Posted. POST NOW!!!</h1>
+                        <Image 
+                            src={NoDataPlaceholder}
+                            alt='No Internships Posted'
+                            width={400}
+                            height={400}
+                            className='animate-pulse align-middle'
+                        />
                     </div>
                   )}
               </CardContent>
