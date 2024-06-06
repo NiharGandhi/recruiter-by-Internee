@@ -55,9 +55,6 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  console.log(internships)
-  console.log(internships.length)
-
   if (loading) return <div><Loader /></div>;
 
   // Function to toggle navbar state
@@ -223,7 +220,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="text-4xl font-bold">
-                      <NumberTicker value={internships.length > 0 ? internships.length : 0} direction='up'></NumberTicker>
+                      <NumberTicker value={internships.length !== 0 ? internships.length : 0} direction='up'></NumberTicker>
                     </div>
                     <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </div>
