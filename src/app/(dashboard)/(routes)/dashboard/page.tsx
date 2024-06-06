@@ -55,6 +55,9 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  console.log(internships)
+  console.log(internships.length)
+
   if (loading) return <div><Loader /></div>;
 
   // Function to toggle navbar state
