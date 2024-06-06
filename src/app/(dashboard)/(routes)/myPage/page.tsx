@@ -47,74 +47,82 @@ const MyPage = async () => {
     });
 
     return (
-        <div>
-            <div style={{ position: 'relative' }}>
-                <Image
-                    src={company.CompanyImageUrl || FallBack}
-                    alt='Banner'
-                    width={1584}
-                    height={396}
-                    className='h-[191px]'
-                />
-                <div style={{ position: 'absolute', top: 5, left: 10 }} className='bg-slate-200 rounded-lg'>
-                    <Link href={"/dashboard"}>
-                        <ArrowLeft className='text-black' />
-                    </Link>
-                </div>
-                <div style={{ position: 'absolute', top: 150, left: 20 }}>
-                    <Image
-                        src={company.CompanyLogoUrl || FallBack}
-                        alt='Logo'
-                        width={100}
-                        height={100}
-                        className='h-[100px]'
-                    />
-                </div>
-            </div>
-            <div className='px-10 space-y-2 lg:mt-4 lg:ml-24 mt-16'>
-                <h1 className='font-bold text-4xl'>{company?.name}</h1>
-                <Badge>{company?.Location}</Badge>
-                <Separator />
+        <>
+        {company ? (
                 <div>
-                    <h2 className='text-2xl font-semibold mt-6'>About Us</h2>
-                    <p className='text-muted-foreground rounded-lg whitespace-pre-wrap'>
-                        {company?.CompanyDescription}
-                    </p>
+                    <div style={{ position: 'relative' }}>
+                        <Image
+                            src={company.CompanyImageUrl || FallBack}
+                            alt='Banner'
+                            width={1584}
+                            height={396}
+                            className='h-[191px]'
+                        />
+                        <div style={{ position: 'absolute', top: 5, left: 10 }} className='bg-slate-200 rounded-lg'>
+                            <Link href={"/dashboard"}>
+                                <ArrowLeft className='text-black' />
+                            </Link>
+                        </div>
+                        <div style={{ position: 'absolute', top: 150, left: 20 }}>
+                            <Image
+                                src={company.CompanyLogoUrl || FallBack}
+                                alt='Logo'
+                                width={100}
+                                height={100}
+                                className='h-[100px]'
+                            />
+                        </div>
+                    </div>
+                    <div className='px-10 space-y-2 lg:mt-4 lg:ml-24 mt-16'>
+                        <h1 className='font-bold text-4xl'>{company?.name}</h1>
+                        <Badge>{company?.Location}</Badge>
+                        <Separator />
+                        <div>
+                            <h2 className='text-2xl font-semibold mt-6'>About Us</h2>
+                            <p className='text-muted-foreground rounded-lg whitespace-pre-wrap'>
+                                {company?.CompanyDescription}
+                            </p>
+                        </div>
+                    </div>
+                    <div className='px-10 space-y-2 lg:mt-6 lg:ml-24 mt-16'>
+                        <h1 className='font-bold text-3xl mt-6'>Internships at <span className='text-purple-300'>{company?.name}</span></h1>
+                        <div>
+                            {internships.map(internship => (
+                                <Card key={internship.id} className='mb-4'>
+                                    <CardHeader>
+                                        <CardTitle className='font-bold'>{internship.name}</CardTitle>
+                                        <CardDescription>{company?.name}</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div>
+                                            <div className='flex'>
+                                                <p className='text-muted-foreground'>Mode: </p>
+                                                <p className='ml-2 font-semibold'>{internship.InternshipType}</p>
+                                            </div>
+                                            <div>
+                                                <p className='text-muted-foreground'>Description: </p>
+                                                <p className='whitespace-pre-wrap'>{internship.InternshipDescription}</p>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <Link className='ml-auto' href={`/myInternships/${internship.id}`}>
+                                            <Button>
+                                                Explore
+                                            </Button>
+                                        </Link>
+                                    </CardFooter>
+                                </Card>
+                            ))}
+                        </div>
+                    </div>
                 </div>
+            ) : (
+            <div>
+                Please setup your Organization Details
             </div>
-            <div className='px-10 space-y-2 lg:mt-6 lg:ml-24 mt-16'>
-                <h1 className='font-bold text-3xl mt-6'>Internships at <span className='text-purple-300'>{company?.name}</span></h1>
-                <div>
-                    {internships.map(internship => (
-                        <Card key={internship.id} className='mb-4'>
-                            <CardHeader>
-                                <CardTitle className='font-bold'>{internship.name}</CardTitle>
-                                <CardDescription>{company?.name}</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div>
-                                    <div className='flex'>
-                                        <p className='text-muted-foreground'>Mode: </p>
-                                        <p className='ml-2 font-semibold'>{internship.InternshipType}</p>
-                                    </div>
-                                    <div>
-                                        <p className='text-muted-foreground'>Description: </p>
-                                        <p className='whitespace-pre-wrap'>{internship.InternshipDescription}</p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                            <CardFooter>
-                                <Link className='ml-auto' href={`/myInternships/${internship.id}`}>
-                                    <Button>
-                                        Explore
-                                    </Button>
-                                </Link>
-                            </CardFooter>
-                        </Card>
-                    ))}
-                </div>
-            </div>
-        </div>
+        )}
+        </>
     );
 }
 
