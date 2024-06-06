@@ -223,7 +223,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center justify-between">
                     <div className="text-4xl font-bold">
-                      <NumberTicker value={internships.length ? internships.length : 0} direction='up'></NumberTicker>
+                      <NumberTicker value={internships.length > 0 ? internships.length : 0} direction='up'></NumberTicker>
                     </div>
                     <CalendarIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </div>
@@ -251,7 +251,7 @@ const Dashboard = () => {
                 </CardHeader>
                 <ScrollArea className='h-[300px]'>
                   <CardContent>
-                    {internships !== null ? (
+                    {internships.length > 0 ? (
                       <div className='grid grid-cols-1 gap-4 mt-4'>
                         {internships.map((project: any, index: number) => (
                           <div key={index} className="flex items-center gap-4">
