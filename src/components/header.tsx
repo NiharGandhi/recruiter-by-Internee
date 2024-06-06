@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import ShimmerButton from './magicui/shimmer-button'
-import { auth } from '@clerk/nextjs/dist/types/server'
+import { auth } from '@clerk/nextjs/server';
 
 const Header = () => {
 
