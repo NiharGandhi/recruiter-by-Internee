@@ -107,7 +107,7 @@ const CreateInternship = () => {
                 const response = await axios.get("/api/addInternships");
                 setInternshipData(response.data);
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.error("Error fetching Internship data:", error);
             }
         };
         fetchCompanyInternships();
@@ -151,16 +151,16 @@ const CreateInternship = () => {
             // router.push(`/users/${response.data.id}`);
             toast({
                 title: "Congratulations",
-                description: "Profile Created Successfully.",
+                description: "Internship Created Successfully.",
             })
             window.location.reload();
             form.reset();
         } catch {
             toast({
                 title: "Error",
-                description: "Error while Creating Profile .",
+                description: "Error while Creating Internship.",
             })
-            console.log("[ERROR] Something went wrong while creating User");
+            console.log("[ERROR] Something went wrong while creating Internship");
         }
     };
 
@@ -172,16 +172,16 @@ const CreateInternship = () => {
 
             toast({
                 title: "Congratulations",
-                description: "Profile Deleted Successfully.",
+                description: "Internship Deleted Successfully.",
             })
 
             window.location.reload();
 
         } catch (error) {
-            console.error("Error deleting project:", error);
+            console.error("Error deleting Internship:", error);
             toast({
                 title: "Error",
-                description: "An error occurred while deleting the project.",
+                description: "An error occurred while deleting the Internship.",
             });
         }
     };
@@ -193,10 +193,10 @@ const CreateInternship = () => {
             router.push(`/myOrganization/createInternship/${internshipId}`)
 
         } catch (error) {
-            console.error("Error deleting project:", error);
+            console.error("Error Editing Internship:", error);
             toast({
                 title: "Error",
-                description: "An error occurred while deleting the project.",
+                description: "An error occurred while Editing the Internship.",
             });
         }
     };
