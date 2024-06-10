@@ -66,7 +66,7 @@ const MyInternshipsPage = () => {
                   <CardTitle>Your Internships</CardTitle>
               </CardHeader>
               <CardContent>
-                  {internshipData.l ? (internshipData !== null && (
+                  {internshipData ? (internshipData !== null && (
                       <div className='grid grid-cols-1 gap-4 mt-4'>
                           {internshipData.map((project: any, index: number) => (
                               <div key={index} className="flex items-center gap-4">
