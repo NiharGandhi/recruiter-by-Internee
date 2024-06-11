@@ -1,22 +1,42 @@
 "use client";
 
-import NumberTicker from '@/components/magicui/number-ticker';
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+
+import Link from 'next/link'
+import { useTheme } from 'next-themes';
+
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle
+} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import axios from 'axios';
-import { CalendarIcon, GoalIcon, HomeIcon, LinkIcon, Moon, NetworkIcon, PlusCircleIcon, Sun, UserIcon, UsersIcon } from 'lucide-react'
-import { useTheme } from 'next-themes';
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 
+import NumberTicker from '@/components/magicui/number-ticker';
+
+import { 
+  BadgeCheckIcon, 
+  BriefcaseBusinessIcon, 
+  Building2Icon, 
+  CalendarIcon, 
+  HomeIcon, 
+  Moon, 
+  NetworkIcon, 
+  PlusCircleIcon, 
+  Sun, 
+  UserIcon, 
+  UsersIcon 
+} from 'lucide-react'
 
 const Loader = () => (
   <div className="flex justify-center items-center h-screen">
@@ -91,14 +111,14 @@ const Dashboard = () => {
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             href="/myInternships"
           >
-            <GoalIcon className="h-4 w-4" />
+            <BriefcaseBusinessIcon className="h-4 w-4" />
             My Internships
           </Link>
           <Link
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             href="/myOrganization"
           >
-            <UserIcon className="h-4 w-4" />
+            <Building2Icon className="h-4 w-4" />
             My Organization
           </Link>
           <Link
@@ -167,14 +187,14 @@ const Dashboard = () => {
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/myInternships"
             >
-              <GoalIcon className="h-4 w-4" />
+              <BriefcaseBusinessIcon className="h-4 w-4" />
               My Internships
             </Link>
             <Link
               className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-100 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
               href="/myOrganization"
             >
-              <UserIcon className="h-4 w-4" />
+              <Building2Icon className="h-4 w-4" />
               My Organization
             </Link>
             <Link
@@ -250,39 +270,15 @@ const Dashboard = () => {
                   <CardContent>
                     {internships.length > 0 ? (
                       <div className='grid grid-cols-1 gap-4 mt-4'>
-                        {internships.map((project: any, index: number) => (
-                          <div key={index} className="flex items-center gap-4">
-                            {project.link ? ( // Check if project has a link
-                              <> {/* Wrap in Link if project has a link */}
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                                  <Link href={project.link}>
-                                    <LinkIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                                  </Link>
-                                </div>
-                                <div className='w-32 lg:w-96'>
-                                  <h3 className="text-lg font-semibold">{project.name}</h3>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
-                                </div>
-                              </>
-                            ) : ( // Render just the div if project does not have a link
-                              <>
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                                  <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                                </div>
-                                <div className='w-32 lg:w-96'>
-                                  <h3 className="text-lg font-semibold">{project.name}</h3>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
-                                </div>
-                              </>
-                            )}
-                            <div className='ml-auto space-x-1'>
-                              <Link href={`/myInternships/${project.id}`}>
-                                <Button>
-                                  Check Applications
-                                </Button>
-                              </Link>
-                            </div>
-                          </div>
+                        {internships.map((internship: any, index: number) => (
+                            <Link href={`/myInternships/${internship.id}`} key={index} className="flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-lg">
+                              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+                              <BriefcaseBusinessIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                              </div>
+                              <div className='w-52 lg:w-96'>
+                                <h3 className="text-lg font-semibold">{internship.name}</h3>
+                              </div>
+                            </Link>
                         ))}
                       </div>
                     ) : (
@@ -307,8 +303,11 @@ const Dashboard = () => {
                                 <UserIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                               </div>
                               <Link href={`/users/${user.id}`}>
-                                <div className='w-32 lg:w-96'>
-                                  <h3 className="text-lg font-semibold">{user.name}</h3>
+                                <div className='w-52 lg:w-96'>
+                                  <h3 className="text-lg font-semibold flex">
+                                    {user.name}
+                                    <span className='ml-2'>{user.verified && <BadgeCheckIcon />}</span>
+                                  </h3>
                                 </div>
                               </Link>
                           </div>

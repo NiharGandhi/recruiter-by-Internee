@@ -1,7 +1,12 @@
 import Header from '@/components/header';
+
 import { db } from '@/lib/db';
-import { auth } from '@clerk/nextjs/server'
+
+import { auth } from '@clerk/nextjs/server';
+
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
+
 import React from 'react'
 
 import {
@@ -15,7 +20,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -23,9 +27,11 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import Link from 'next/link';
-import { ArrowBigRight, CalendarIcon, DownloadCloudIcon, FileIcon, LinkIcon, PencilIcon } from 'lucide-react';
+} from "@/components/ui/breadcrumb";
+
+import { ArrowBigRight, BadgeCheckIcon, CalendarIcon, DownloadCloudIcon, FileIcon, LinkIcon } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 
 const UserPublicPage = async ({
@@ -84,7 +90,10 @@ const UserPublicPage = async ({
             <div className='py-4 px-8'>
                 <Card>
                     <CardHeader>
-                        <CardTitle className='font-bold'>{user?.name}</CardTitle>
+                        <CardTitle className='font-bold flex'>
+                            {user?.name}
+                            <span className='ml-2'>{user?.verified && <BadgeCheckIcon />}</span>
+                        </CardTitle>
                         <CardDescription>{user?.InstitutionName}</CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -95,27 +104,34 @@ const UserPublicPage = async ({
                                 <p className='text-sm text-muted'>No Skills Added</p>
                             )}
                         </div>
-                        <div className='flex flex-col mt-4 justify-center space-y-2'>
-                            <div>
-                                <h2 className='font-semibold'>Bio:</h2>
-                                <p className='whitespace-pre-wrap ml-2'>
-                                    {user?.bio}
-                                </p>
-                            </div>
+                        <div className='flex flex-col mt-4 justify-center space-y-2 mb-4'>
+                            {user?.bio && (
+                                <>
+                                    <div>
+                                        <h2 className='font-semibold'>Bio:</h2>
+                                        <ScrollArea className='h-[270px] lg:h-[100px] whitespace-pre-wrap font-light'>
+                                            {user?.bio}
+                                        </ScrollArea>
+                                    </div>
+                                    <Separator />
+                                </>
+                            )}
                             <div className='flex'>
                                 <h2 className='font-semibold mr-2'>Education Level:</h2>
                                 {user?.EducationLevel}
                             </div>
+                            <Separator />
                             <div className='flex'>
                                 <h2 className='font-semibold mr-2'>Graduation Date:</h2>
                                 {user?.GraduationDate ? user.GraduationDate.toDateString() : 'N/A'}
                             </div>
+                            <Separator />
                         </div>
                         {user?.resume ? (
-                            <Link href={user?.resume}>
-                                <div className="flex items-center justify-center p-3 w-full bg-purple-100 border-purple-200 border text-purple-700 rounded-md mt-4">
+                            <Link href={user?.resume} rel="noopener noreferrer" target="_blank">
+                                <div className="flex items-center justify-center p-3 w-full bg-purple-100 border-purple-200 border text-purple-700 rounded-md mt-2">
                                     {user?.name}&apos;s Resume
-                                    <DownloadCloudIcon className='h-5 w-5 mr-2' />
+                                    <DownloadCloudIcon className='h-5 w-5 ml-2' />
                                 </div>
                             </Link>
                         ) : (
@@ -124,6 +140,7 @@ const UserPublicPage = async ({
                                 No Resume Uploaded by {user?.name}
                             </div>
                         )}
+                        <Separator className='mt-6' />
                         <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Projects</h2>
                         {projects && projects.length > 0 ? (
                             <div className='grid grid-cols-1 gap-4 mt-4'>
@@ -165,11 +182,11 @@ const UserPublicPage = async ({
                                 ))}
                             </div>
                         ) : (
-                            <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
-                                <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                            <div className='flex items-center justify-center text-muted-foreground'>
                                 No Projects Uploaded by {user?.name}
                             </div>
                         )}
+                        <Separator className='mt-6' />
                         <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Certificates</h2>
                         {certificates && certificates.length > 0 ? (
                             <div className='grid grid-cols-1 gap-4 mt-4'>
@@ -195,11 +212,11 @@ const UserPublicPage = async ({
                                 ))}
                             </div>
                         ) : (
-                            <div className='flex items-center justify-center h-16 bg-slate-100 rounded-md text-slate-400'>
-                                <FileIcon className='h-5 w-5 text-slate-400 mr-2' />
+                            <div className='flex items-center justify-center text-muted-foreground'>
                                 No Certificates Uploaded by {user?.name}
                             </div>
                         )}
+                        <Separator className='mt-6' />
                     </CardContent>
                     <CardFooter>
                         <Popover>

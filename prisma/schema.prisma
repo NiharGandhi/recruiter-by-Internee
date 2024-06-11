@@ -23,6 +23,7 @@ model User {
   GraduationDate DateTime?
   email String? @unique 
   stripe_customer_id String?
+  verified Boolean @default(false)
   
   skills String?
 
@@ -63,6 +64,7 @@ model Events {
   id String @id @default(uuid()) @map("_id")
   title String 
   dateTime DateTime
+  description String @default("null")
 }
 
 model OnlineReourses {
