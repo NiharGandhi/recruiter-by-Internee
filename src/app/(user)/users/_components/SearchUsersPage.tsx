@@ -18,10 +18,30 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import AnimatedGradientText from '@/components/magicui/animated-gradient-text';
 import { Input } from '@/components/ui/input';
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { useToast } from '@/components/ui/use-toast';
+
 import { BadgeCheckIcon, ChevronsUpDown } from 'lucide-react';
-import VerifiedBadge from "../../../../../public/verified_badge.svg";
+import { SocialIcon } from 'react-social-icons';
 
 const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
+
+    const { toast } = useToast();
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                toast({
+                    title: "Email Copied to Clipboard",
+                });
+            })
+            .catch((err) => {
+                toast({
+                    title: "Error",
+                    description: "Error Copying Email",
+                });
+            });
+    };
+
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(10);
     const [searchQuery, setSearchQuery] = useState('');
@@ -284,7 +304,7 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
                 </Popover>
                 <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
                 {/* User Cards */}
-                {currentUsers.map((user: { id: React.Key | null | undefined; name: string; InstitutionName: string; skills: string; EducationLevel: string; GraduationDate: string | number | Date; email: string; verified: Boolean; }) => (
+                {currentUsers.map((user: { id: React.Key | null | undefined; name: string; InstitutionName: string; skills: string; EducationLevel: string; GraduationDate: string | number | Date; email: string; verified: Boolean; instagramLink: string; linkedInLink: string; xLink: string; }) => (
                     <Card key={user.id} className='mb-4'>
                         <CardHeader>
                             <CardTitle className='font-bold flex'>
@@ -326,10 +346,25 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
                                 <PopoverContent className="w-80 px-4">
                                     <div className="grid gap-4">
                                         <div className="space-y-2">
-                                            <h4 className="font-medium leading-none">Email ID</h4>
-                                            <p className="text-sm text-muted-foreground">
-                                                {user.email}
-                                            </p>
+                                            <h4 className="font-medium leading-none">Socials</h4>
+                                            <div className='flex space-x-4 py-2'>
+                                                {user?.linkedInLink && (
+                                                    <SocialIcon url={user?.linkedInLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                                )}
+                                                {user?.instagramLink && (
+                                                    <SocialIcon url={user?.instagramLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                                )}
+                                                {user?.xLink && (
+                                                    <SocialIcon url={user?.xLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                                )}
+                                                {user.email && (
+                                                    <SocialIcon
+                                                        network="email"
+                                                        style={{ height: 40, width: 40 }}
+                                                        onClick={() => copyToClipboard(user.email)}
+                                                    />
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </PopoverContent>

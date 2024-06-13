@@ -17,6 +17,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -29,9 +31,9 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { ArrowBigRight, BadgeCheckIcon, CalendarIcon, DownloadCloudIcon, FileIcon, LinkIcon } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+import { ArrowBigRight, BadgeCheckIcon, CalendarIcon, DownloadCloudIcon, FileIcon, LinkIcon, Mail } from 'lucide-react';
+
+import { SocialIcon } from 'react-social-icons';
 
 
 const UserPublicPage = async ({
@@ -66,7 +68,15 @@ const UserPublicPage = async ({
         }
     });
 
-    const userSkills = user?.skills ? user.skills.split(',') : [];
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                alert('Email copied to clipboard');
+            })
+            .catch((err) => {
+                console.error('Failed to copy: ', err);
+            });
+    };
 
     return (
         <div>
@@ -104,12 +114,35 @@ const UserPublicPage = async ({
                                 <p className='text-sm text-muted'>No Skills Added</p>
                             )}
                         </div>
+                        <div className='mt-4'>
+                            <h2 className='font-semibold'>
+                                Socials
+                            </h2>
+                            <div className='flex space-x-4 py-2'>
+                                {user?.linkedInLink && (
+                                    <SocialIcon url={user?.linkedInLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                )}
+                                {user?.instagramLink && (
+                                    <SocialIcon url={user?.instagramLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                )}
+                                {user?.xLink && (
+                                    <SocialIcon url={user?.xLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
+                                )}
+                                {user?.email && (
+                                    <SocialIcon
+                                        network='email'
+                                        style={{ height: 40, width: 40 }}
+                                        href={`mailto:${user?.email}`}
+                                    />
+                                )}
+                            </div>
+                        </div>
                         <div className='flex flex-col mt-4 justify-center space-y-2 mb-4'>
                             {user?.bio && (
                                 <>
                                     <div>
                                         <h2 className='font-semibold'>Bio:</h2>
-                                        <ScrollArea className='h-[270px] lg:h-[100px] whitespace-pre-wrap font-light'>
+                                        <ScrollArea className='h-[270px] lg:h-[200px] whitespace-pre-wrap font-light'>
                                             {user?.bio}
                                         </ScrollArea>
                                     </div>
@@ -219,21 +252,14 @@ const UserPublicPage = async ({
                         <Separator className='mt-6' />
                     </CardContent>
                     <CardFooter>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button>Contact Me</Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-80 px-4">
-                                <div className="grid gap-4">
-                                    <div className="space-y-2">
-                                        <h4 className="font-medium leading-none">Email ID</h4>
-                                        <p className="text-sm text-muted-foreground">
-                                            {user?.email}
-                                        </p>
-                                    </div>
-                                </div>
-                            </PopoverContent>
-                        </Popover>
+                        <Button
+                            className='flex'
+                        >
+                            <Link href={`mailto:${user?.email}`}>
+                                Email Me
+                            </Link>
+                            <Mail className='ml-1 h-5 w-5' />
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>
