@@ -127,7 +127,7 @@ const ApplicationPage = async ({ params }) => {
                                 </CardContent>
                                 <CardFooter>
                                     Status:
-                                    <UpdateStatusButton applicationId={app.id} />
+                                    <UpdateStatusButton applicationId={app.id} userEmail={app.user.email} userName={app.user.name} internshipName={internshipData.name} />
                                 </CardFooter>
                             </Card>
                         ))

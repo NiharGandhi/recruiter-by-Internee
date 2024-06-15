@@ -6,11 +6,18 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useToast } from './ui/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { ArrowDown, ArrowDownNarrowWide, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import { applicationStatusChange } from '@/helpers/emailTemplates';
 
-const UpdateStatusButton = ({ applicationId }) => {
+const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName } : {
+    applicationId: string,
+    userEmail: string,
+    userName: string,
+    internshipName: string
+}) => {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState('PENDING'); // Initial status
+
     const { toast } = useToast();
 
     useEffect(() => {
@@ -50,6 +57,13 @@ const UpdateStatusButton = ({ applicationId }) => {
 
             setStatus(newStatus); // Update the status in the component state
 
+            await axios.post("/api/send-mail", {
+                to: `${userEmail}`,
+                name: `${userName}`,
+                subject: `${internshipName}`,
+                body: applicationStatusChange(userName, internshipName),
+            })
+
             toast({
                 title: "Status Updated",
                 description: `Application status updated to ${newStatus}`,
@@ -68,13 +82,28 @@ const UpdateStatusButton = ({ applicationId }) => {
         <div className='ml-2'>
             <DropdownMenu>
                 {status === "PENDING" && (
-                    <DropdownMenuTrigger className='ml-auto'><Button className='bg-slate-400' variant='outline'>{status} <ChevronDown className='ml-1 w-6 h-6' /></Button></DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='ml-auto' disabled={loading}>
+                        <Button className='bg-slate-400' variant='outline'>
+                            {status} 
+                            <ChevronDown className='ml-1 w-6 h-6' />
+                        </Button>
+                    </DropdownMenuTrigger>
                 )}
                 {status === "ACCEPTED" && (
-                    <DropdownMenuTrigger className='ml-auto'><Button className='bg-green-400' variant='outline'>{status} <ChevronDown className='ml-1 w-6 h-6' /></Button></DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='ml-auto' disabled={loading}>
+                        <Button className='bg-green-400' variant='outline'>
+                            {status} 
+                            <ChevronDown className='ml-1 w-6 h-6' />
+                        </Button>
+                    </DropdownMenuTrigger>
                 )}
                 {status === "REJECTED" && (
-                    <DropdownMenuTrigger className='ml-auto'><Button className='bg-red-400' variant='outline'>{status} <ChevronDown className='ml-1 w-6 h-6' /></Button></DropdownMenuTrigger>
+                    <DropdownMenuTrigger className='ml-auto'>
+                        <Button className='bg-red-400' variant='outline'>
+                            {status} 
+                            <ChevronDown className='ml-1 w-6 h-6' />
+                        </Button>
+                    </DropdownMenuTrigger>
                 )}
                 <DropdownMenuContent>
                     <DropdownMenuLabel>Status</DropdownMenuLabel>
