@@ -70,7 +70,7 @@ const MessagePage = ({ params }: { params: any }) => {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/internships/appliedInternships">Applied Internships</BreadcrumbLink>
+                        <BreadcrumbLink href="/myInternships">My Internships</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
