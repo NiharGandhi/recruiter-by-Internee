@@ -15,6 +15,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import React from 'react';
+import { MessageCircle } from 'lucide-react';
 
 const ApplicationPage = async ({ params }) => {
     const { internshipId } = params;
@@ -128,6 +129,11 @@ const ApplicationPage = async ({ params }) => {
                                 <CardFooter>
                                     Status:
                                     <UpdateStatusButton applicationId={app.id} userEmail={app.user.email} userName={app.user.name} internshipName={internshipData.name} />
+                                    <Link href={`/message/${app.id}`} className='ml-auto'>
+                                        <Button>
+                                            <MessageCircle />
+                                        </Button>
+                                    </Link>
                                 </CardFooter>
                             </Card>
                         ))
