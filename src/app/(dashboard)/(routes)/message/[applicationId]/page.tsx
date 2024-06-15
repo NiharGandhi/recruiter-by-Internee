@@ -38,7 +38,7 @@ const MessagePage = ({ params }: { params: any }) => {
             setMessages(response.data);
         };
         fetchMessages();
-    }, [applicationId]);
+    });
 
     const handleSendMessage = async () => {
         if (messageContent.trim() === '') return;
